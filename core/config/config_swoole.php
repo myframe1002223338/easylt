@@ -1,0 +1,198 @@
+<?php
+/**
+ * 配置TCP服务器
+ */
+//配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
+define('TCP_SERV_ON_OFF',1);
+//配置服务器IP,默认0.0.0.0,同时监听多个IP;
+define('TCP_SERV_IP','0.0.0.0');
+//配置服务器端口号,默认9501;
+define('TCP_SERV_PORT',9501);
+//配置服务器模式,默认为多进程;
+define('TCP_SERV_MODEL',SWOOLE_PROCESS);
+//配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
+define('TCP_SERV_DAEMONIZE',1);
+//配置服务器worker进程数
+define('TCP_SERV_WORKER_NUM',20);
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+define('TCP_SERV_MAX_REQUEST',500);
+//配置服务器是否开启task异步任务,1为开启,0为关闭;
+define('TCP_SERV_TASK',0);
+//配置服务器task异步进程数
+define('TCP_SERV_TASK_NUM',10);
+
+/**
+ * 配置TCP客户端
+ */
+//配置访问服务器IP,默认127.0.0.1;
+define('TCP_CLI_IP','127.0.0.1');
+//配置访问服务器端口号,默认9501;
+define('TCP_CLI_PORT',9501);
+//配置客户端最长连接时间,以秒为单位;
+define('TCP_TIME_OUT',10);
+
+/**
+ * 配置UDP服务器
+ */
+//配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
+define('UDP_SERV_ON_OFF',1);
+//配置服务器IP,默认0.0.0.0,同时监听多个IP;
+define('UDP_SERV_IP','0.0.0.0');
+//配置服务器端口号,默认9502;
+define('UDP_SERV_PORT',9502);
+//配置服务器模式,默认为多进程;
+define('UDP_SERV_MODEL',SWOOLE_PROCESS);
+//配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
+define('UDP_SERV_DAEMONIZE',1);
+//配置服务器worker进程数
+define('UDP_SERV_WORKER_NUM',20);
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+define('UDP_SERV_MAX_REQUEST',500);
+//配置服务器是否开启task异步任务,1为开启,0为关闭;
+define('UDP_SERV_TASK',0);
+//配置服务器task异步进程数
+define('UDP_SERV_TASK_NUM',10);
+
+/**
+ * 配置UDP客户端
+ */
+//配置访问服务器IP,默认127.0.0.1;
+define('UDP_CLI_IP','127.0.0.1');
+//配置访问服务器端口号,默认9502;
+define('UDP_CLI_PORT',9502);
+
+/**
+ * 配置HTTP服务器
+ */
+//配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
+define('HTTP_SERV_ON_OFF',1);
+//配置服务器IP,默认0.0.0.0,同时监听多个IP;
+define('HTTP_SERV_IP','0.0.0.0');
+//配置服务器端口号,默认9503;
+define('HTTP_SERV_PORT',9503);
+//配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
+define('HTTP_SERV_DAEMONIZE',1);
+//配置服务器worker进程数
+define('HTTP_SERV_WORKER_NUM',20);
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+define('HTTP_SERV_MAX_REQUEST',500);
+//配置服务器是否开启task异步任务,1为开启,0为关闭;
+define('HTTP_SERV_TASK',0);
+//配置服务器task异步进程数
+define('HTTP_SERV_TASK_NUM',10);
+
+/**
+ * 配置HTTP客户端,客户端采用curl与服务器进行数据传输;
+ */
+//curl-http-post请求配置:
+//配置访问服务器IP,默认127.0.0.1;
+define('HTTP_POST_CLI_IP','127.0.0.1');
+//配置访问服务器端口号,默认9503;
+define('HTTP_POST_CLI_PORT',9503);
+//数据回传,1为直接返回,0为直接输出;
+define('HTTP_POST_RETURNTRANSFER',1);
+//是否验证SSL证书,1为开启验证,0为不验证;
+define('HTTP_POST_SSL_VERIFYPEER',0);
+//是否检查SSL证书,2为检查当前域名是否与SSL证书域名匹配,0为不检查;
+define('HTTP_POST_SSL_VERIFYHOST',0);
+//如果开启SSL验证则需配置SSL证书,默认不配置;
+define('HTTP_POST_CAINFO','输入SSL证书绝对路径');
+//1为开启头信息,0为关闭头信息;
+define('HTTP_POST_HEADER',0);
+//响应时间设置,以秒为单位;
+define('HTTP_POST_TIMEOUT',10);
+
+//curl-http-get请求配置:
+//配置访问服务器IP,默认127.0.0.1;
+define('HTTP_GET_CLI_IP','127.0.0.1');
+//配置访问服务器端口号,默认9503;
+define('HTTP_GET_CLI_PORT',9503);
+//数据回传,1为直接返回,0为直接输出;
+define('HTTP_GET_RETURNTRANSFER',1);
+//是否验证SSL证书,1为开启验证,0为不验证;
+define('HTTP_GET_SSL_VERIFYPEER',0);
+//是否检查SSL证书,2为检查当前域名是否与SSL证书域名匹配,0为不检查;
+define('HTTP_GET_SSL_VERIFYHOST',0);
+//如果开启SSL验证则需配置SSL证书,默认不配置;
+define('HTTP_GET_CAINFO','输入SSL证书绝对路径');
+//1为开启头信息,0为关闭头信息;
+define('HTTP_GET_HEADER',0);
+//响应时间设置,以秒为单位;
+define('HTTP_GET_TIMEOUT',10);
+
+/**
+ * 配置WEBSOCKET服务器
+ */
+//配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
+define('WEBSOCKET_SERV_ON_OFF',1);
+//配置服务器IP,默认0.0.0.0,同时监听多个IP;
+define('WEBSOCKET_SERV_IP','0.0.0.0');
+//配置服务器端口号,默认9504;
+define('WEBSOCKET_SERV_PORT',9504);
+//配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
+define('WEBSOCKET_SERV_DAEMONIZE',1);
+//配置服务器worker进程数
+define('WEBSOCKET_SERV_WORKER_NUM',100);
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+define('WEBSOCKET_SERV_MAX_REQUEST',500);
+//配置服务器返回数据间隔时间,以毫秒为单位;
+define('WEBSOCKET_RESPONSE_TIME',3000);
+//配置服务器连接心跳检测,以秒为单位;
+define('WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL',30);
+//配置服务器心跳检测最大闲置时间,超时将关闭连接,默认为心跳检测时间的2倍加2-5秒的网络延迟弥补;
+define('WEBSOCKET_HEARTHBEAT_IDLE_TIME',65);
+//配置服务器接收单用户发送消息还是群用户发送消息,1为单用户,0为群用户;群用户发送仅支持$websocket_serv->receive()触发;
+define('WEBSOCKET_CHAT_MODEL',1);
+//配置服务器是否开启task异步任务,1为开启,0为关闭;
+define('WEBSOCKET_SERV_TASK',0);
+//配置服务器task异步进程数
+define('WEBSOCKET_SERV_TASK_NUM',10);
+
+/**
+ * 配置WEBSOCKET客户端
+ * 请参考view视图目录下的websocket_test.php进行实现
+ */
+ 
+ /**
+ * 配置RPC服务器
+ */
+//配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
+define('RPC_SERV_ON_OFF',1);
+//配置服务器IP,默认0.0.0.0,同时监听多个IP;
+define('RPC_SERV_IP','0.0.0.0');
+//配置服务器端口号,默认9505;
+define('RPC_SERV_PORT',9505);
+//配置服务器模式,默认为多进程;
+define('RPC_SERV_MODEL',SWOOLE_PROCESS);
+//配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
+define('RPC_SERV_DAEMONIZE',1);
+//配置服务器worker进程数
+define('RPC_SERV_WORKER_NUM',20);
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+define('RPC_SERV_MAX_REQUEST',500);
+//配置服务器是否开启task异步任务,1为开启,0为关闭;
+define('RPC_SERV_TASK',0);
+//配置服务器task异步进程数
+define('RPC_SERV_TASK_NUM',10);
+
+/**
+ * 配置RPC客户端
+ */
+//配置访问服务器IP,默认127.0.0.1;
+define('RPC_CLI_IP','127.0.0.1');
+//配置访问服务器端口号,默认9505;
+define('RPC_CLI_PORT',9505);
+//配置客户端最长连接时间,以秒为单位;
+define('RPC_TIME_OUT',10);
+
+/**
+ * 配置Process多进程
+ */
+//配置Process多进程是否开启队列消息,1为开启,0为不开启;
+define('PROCESS_QUEUE',0);
+//配置Process多进程作为守护进程运行,1为守护运行,0为非守护运行;
+define('PROCESS_DAEMONIZE',1);
+
+
+
+
