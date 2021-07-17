@@ -1,6 +1,10 @@
 <?php
 class Websocket_server{
     public $serv;
+    public $data;
+    public $fd;
+    public $mysql;
+    public $redis;
     private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
@@ -27,8 +31,8 @@ class Websocket_server{
     public function connect($func){
         $this->serv->on('open',function($serv,$request)use($func){
         $db = $func();
-        $GLOBALS['mysql'] = $db['mysql'];
-        $GLOBALS['redis'] = $db['redis'];
+        $this->mysql = $db['mysql'];
+        $this->redis = $db['redis'];
        });
     }
     public function receive($func){
@@ -37,8 +41,8 @@ class Websocket_server{
             if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                 $send = json_encode($send,256+64);
             }
-            $GLOBALS['data'] = $request->data;
-            $GLOBALS['fd'] = $request->fd;
+            $this->data = $request->data;
+            $this->fd = $request->fd;
             if($send!=null){
                 if(WEBSOCKET_CHAT_MODEL===1){
                     $serv->push($request->fd,$send);
@@ -56,12 +60,12 @@ class Websocket_server{
     public function workerstart($func){
         $this->serv->on('WorkerStart',function($serv,$worker_id)use($func){
             swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func){
-                $send = $func($GLOBALS['data'],$GLOBALS['mysql'],$GLOBALS['redis']);
+                $send = $func($this->data,$this->mysql,$this->redis);
                 if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                     $send = json_encode($send,256+64);
                 }
                 if($send!=null){
-                    $serv->push($GLOBALS['fd'],$send);
+                    $serv->push($this->fd,$send);
                 }
             },$serv);
         });
@@ -79,8 +83,6 @@ class Websocket_server{
     }
     public function close($func){
         $this->serv->on('close',function($serv,$request)use($func){
-            unset($GLOBALS['data']);
-            unset($GLOBALS['fd']);
             $func();
         });
     }

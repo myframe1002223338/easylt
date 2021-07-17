@@ -7,7 +7,7 @@ define('DB_USER','root');
 define('DB_PWD','root');
 define('DB_HOST','127.0.0.1');
 define('DB_NAME','easylt_test');
-define('DB_CHARSET','utf8');
+define('DB_CHARSET','utf8mb4');
 
 //配置是否加载redis连接类库,1为加载,0为不加载(默认不加载,加载时如果未开启redis-server会报错);
 define('REDIS_INCLUDE',0);
