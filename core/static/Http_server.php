@@ -59,4 +59,7 @@ class Http_server{
     public function start(){
         $this->serv->start();
     }
+    public function __destruct(){
+        unset($this->serv);
+    }
 }

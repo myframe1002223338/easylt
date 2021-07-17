@@ -30,13 +30,20 @@ class Websocket_server{
     }
     public function connect($func){
         $this->serv->on('open',function($serv,$request)use($func){
-        $db = $func();
-        $this->mysql = $db['mysql'];
-        $this->redis = $db['redis'];
+        $func();
        });
     }
     public function receive($func){
         $this->serv->on('message',function($serv,$request)use($func){
+            $mysql_conn = mysqli_connect(DB_HOST,DB_USER,DB_PWD);//内存常驻引入静态mysql连接类库会出现问题,直接在服务器类库中实现连接;
+            mysqli_set_charset($mysql_conn,DB_CHARSET);
+            mysqli_select_db($mysql_conn,DB_NAME);
+            $this->mysql = $mysql_conn;
+            $redis_conn = new \Redis();//内存常驻引入静态redis连接类库会出现问题,直接在服务器类库中实现连接;
+            $redis_conn->connect(REDIS_HOST,REDIS_PORT);
+            $redis_conn->auth(REDIS_AUTH);
+            $redis_conn->select(REDIS_DBNAME);
+            $this->redis = $redis_conn;
             $send = $func($request->data);
             if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                 $send = json_encode($send,256+64);
@@ -88,5 +95,12 @@ class Websocket_server{
     }
     public function start(){
         $this->serv->start();
+    }
+    public function __destruct(){
+        unset($this->serv);
+        unset($this->data);
+        unset($this->fd);
+        unset($this->mysql);
+        unset($this->redis);
     }
 }
