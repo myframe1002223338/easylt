@@ -79,8 +79,6 @@ class Websocket_server{
     }
     public function close($func){
         $this->serv->on('close',function($serv,$request)use($func){
-            unset($GLOBALS['mysql']);
-            unset($GLOBALS['redis']);
             unset($GLOBALS['data']);
             unset($GLOBALS['fd']);
             $func();

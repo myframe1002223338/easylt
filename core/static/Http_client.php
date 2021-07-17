@@ -13,7 +13,7 @@ class Http_client{
         }
         $arr = [];
         foreach($new_data as $v){
-            array_push($arr,json_encode($v));
+            array_push($arr,json_encode($v,256+64));
         }
         $cu = curl_init();
         curl_setopt($cu,CURLOPT_URL,HTTP_POST_CLI_IP.':'.HTTP_POST_CLI_PORT);

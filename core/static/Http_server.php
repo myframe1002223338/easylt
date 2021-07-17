@@ -30,8 +30,8 @@ class Http_server{
             foreach($request->post as $v){//对传入的post数据进行处理,否则无法成功发送数据;
                 $post[] = json_decode($v,true);
             }
-            $post = json_encode($post);
-            $get = json_encode($request->get);//对传入的get数据进行处理,否则无法成功发送数据;
+            $post = json_encode($post,256+64);
+            $get = json_encode($request->get,256+64);//对传入的get数据进行处理,否则无法成功发送数据;
             $data = ['post'=>$post,'get'=>$get];
             $send = $func($post,$get);
             if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
