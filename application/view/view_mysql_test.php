@@ -10,7 +10,7 @@
 <body>
 <div id="content"></div>
 <?php
-$url = API_URL."mysql_test/a";
+$url = API_URL."mysql_test/a/?name=liteng";
 echo "<input id=\"url\" type=\"hidden\" value=$url>";
 ?>
 <script type="application/javascript">

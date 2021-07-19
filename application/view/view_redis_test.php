@@ -21,7 +21,7 @@ echo "<input id=\"url\" type=\"hidden\" value=$url>";
     xmlhttp.send(null);
     var ob_result = xmlhttp.responseText;
     if(ob_result==''){
-        document.getElementById('content').innerText = '请在配置文件config.php中开启加载redis连接类库 或 检查是否需要AUTH验证 或 检查是否开启redis服务！';
+        document.getElementById('content').innerText = '请在配置文件config.php中开启加载redis连接类库 或 检查是否需要AUTH验证 或 检查是否安装redis扩展并开启redis服务！';
     }else{
         var ob_result = JSON.parse(ob_result);
         document.getElementById('content').innerText = ob_result.data;
