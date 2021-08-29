@@ -1,6 +1,6 @@
 <?php
 include('mysql_test.php');
-//该model没有对应的logic文件时,请参考以下数据回传代码;如含有对应的logic文件,则复制以下数据回传代码到logic文件中;
+//该model没有对应的logic文件时,请参考以下数据出参回传代码;如含有对应的logic文件,则复制以下数据回传代码到logic文件中;
 // if($data && $data!='unconnect'){
 //     $logic_name = '数据库连接成功！数据库读取值为'.$data[0]['content'].'，logic逻辑处理后值为';
 //     $num = 5;
