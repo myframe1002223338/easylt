@@ -141,7 +141,7 @@ define('WEBSOCKET_RESPONSE_TIME',3000);
 define('WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL',30);
 //配置服务器心跳检测最大闲置时间,即客户端周期时间内没有给服务器再次发送消息将关闭连接,默认为心跳检测时间的2倍加2-5秒的网络延迟弥补;
 define('WEBSOCKET_HEARTHBEAT_IDLE_TIME',65);
-//配置服务器接收单用户发送消息还是群用户发送消息,1为单用户,0为群用户;群用户发送仅支持$websocket_serv->receive()触发;
+//配置服务器接收单用户发送消息还是群用户发送消息,1为单聊,0为群聊,仅支持$websocket_serv->receive()触发;
 define('WEBSOCKET_CHAT_MODEL',1);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('WEBSOCKET_SERV_TASK',0);

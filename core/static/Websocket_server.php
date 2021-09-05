@@ -35,37 +35,47 @@ class Websocket_server{
     }
     public function receive($func){
         $this->serv->on('message',function($serv,$request)use($func){
-            $mysql_conn = mysqli_connect(DB_HOST,DB_USER,DB_PWD);//内存常驻引入静态mysql连接类库会出现问题,直接在服务器类库中实现连接;
-            mysqli_set_charset($mysql_conn,DB_CHARSET);
-            mysqli_select_db($mysql_conn,DB_NAME);
-            $this->mysql = $mysql_conn;
-            $redis_conn = new \Redis();//内存常驻引入静态redis连接类库会出现问题,直接在服务器类库中实现连接;
-            $redis_conn->connect(REDIS_HOST,REDIS_PORT);
-            $redis_conn->auth(REDIS_AUTH);
-            $redis_conn->select(REDIS_DBNAME);
-            $this->redis = $redis_conn;
-            $send = $func($request->data);
-            if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
-                $send = json_encode($send,256+64);
-            }
             $this->data = $request->data;
             $this->fd = $request->fd;
-            if($send!=null){
-                if(WEBSOCKET_CHAT_MODEL===1){
-                    $serv->push($request->fd,$send);
-                }else{
-                    foreach ($serv->connections as $fd){
-                        $serv->push($fd,$send);
-                    }
-                }
+            if(WEBSOCKET_CHAT_MODEL===1){
+                swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func){
+                       $send = $func($this->data);
+                       if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                       $send = json_encode($send,256+64);
+                       }
+                       if($send!=null){
+                           $serv->push($this->fd,$send);
+                       }
+                },$serv);
+            }else{
+                swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func){
+                      $send = $func($this->data);
+                      if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                      $send = json_encode($send,256+64);
+                      }
+                      if($send!=null){
+                          foreach($serv->connections as $fd){
+                              $serv->push($fd,$send);
+                          }
+                      }
+                },$serv);
             }
-        if(WEBSOCKET_SERV_TASK===1){
-            $serv->task($request->data);
-        }
+            if(WEBSOCKET_SERV_TASK===1){
+                $serv->task($this->data);
+            }
         });
     }
     public function workerstart($func){
         $this->serv->on('WorkerStart',function($serv,$worker_id)use($func){
+            $mysql_conn = mysqli_connect(DB_HOST,DB_USER,DB_PWD);//worker进程直接引入外部mysql连接会出现问题,在这里实现连接;
+            mysqli_set_charset($mysql_conn,DB_CHARSET);
+            mysqli_select_db($mysql_conn,DB_NAME);
+            $this->mysql = $mysql_conn;
+            $redis_conn = new \Redis();//worker进程直接引入外部redis连接会出现问题,在这里实现连接;
+            $redis_conn->connect(REDIS_HOST,REDIS_PORT);
+            $redis_conn->auth(REDIS_AUTH);
+            $redis_conn->select(REDIS_DBNAME);
+            $this->redis = $redis_conn;
             swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func){
                 $send = $func($this->data,$this->mysql,$this->redis);
                 if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
