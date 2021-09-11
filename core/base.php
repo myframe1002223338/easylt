@@ -27,10 +27,10 @@ class AutoLoad{
         //获取页面href参数
         $href = $_GET['href'];
 		if(in_array($href,$new_arr)){
-                include_once($dir.D.'application'.D.'view'.D.$href.'.php');
-            }else{
-				include_once($dir.D.'application'.D.'view'.D.'start.php');
-			}
+		    include_once($dir.D.'application'.D.'view'.D.$href.'.php');
+		}else{
+		    include_once($dir.D.'application'.D.'view'.D.'start.php');
+		}
         closedir($view_fopen);
     }
     //API数据回传运行基类

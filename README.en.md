@@ -1,7 +1,7 @@
 # easylt
 
 #### Description
-欢迎使用EASYLT v2.0  一款MSVP多场景PHP框架
+欢迎使用EASYLT v2.x  一款MSVP多场景PHP框架
 
 #### Software Architecture
 Software architecture description

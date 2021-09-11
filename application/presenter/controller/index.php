@@ -7,6 +7,7 @@ date_default_timezone_set('Asia/chongqing');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_controller.php');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_route.php');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_swoole.php');
+include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_rabbitmq.php');
 
 //动态加载类库
 function autoload(){
@@ -20,6 +21,13 @@ function autoload(){
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Udp_client.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Http_client.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Rpc_client.php');
+    include('..'.D.'..'.D.'..'.D.'extend'.D.'rabbitmq'.D.'vendor'.D.'autoload.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_producter.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_consumer.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Fanout_producter.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Routing_producter.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Topic_producter.php');
+    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Dead_producter.php');
 }
 spl_autoload_register('autoload');
 
@@ -94,6 +102,10 @@ class Index{
             unset($query_param);
             return json_encode($this->json_value);
         }
+    }
+    public function __destruct(){
+        unset($this->route_param);
+        unset($this->json_value);
     }
 }
 $ob = new Index;

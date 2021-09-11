@@ -135,7 +135,7 @@ define('WEBSOCKET_SERV_DAEMONIZE',1);
 define('WEBSOCKET_SERV_WORKER_NUM',100);
 //配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
 define('WEBSOCKET_SERV_MAX_REQUEST',500);
-//配置服务器返回数据间隔时间,以毫秒为单位;
+//配置服务器循环定时返回数据间隔时间,以毫秒为单位;
 define('WEBSOCKET_RESPONSE_TIME',3000);
 //配置服务器连接心跳检测,以秒为单位;
 define('WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL',30);
@@ -186,12 +186,14 @@ define('RPC_CLI_PORT',9505);
 define('RPC_TIME_OUT',10);
 
 /**
- * 配置Process多进程
+ * 配置Process多进程,开启进程池用pipe管道进行进程间通信,不开启进程池用queue消息队列进行进程间通信;
  */
 //配置Process多进程是否开启队列消息,1为开启,0为不开启;
-define('PROCESS_QUEUE',0);
+define('PROCESS_QUEUE',1);
 //配置Process多进程作为守护进程运行,1为守护运行,0为非守护运行;
 define('PROCESS_DAEMONIZE',1);
+//配置是否开启进程池与进程池数量,1为开启,0为不开启;默认进程池数量为30;
+define('PROCESS_POOL',[0,30]);
 
 
 

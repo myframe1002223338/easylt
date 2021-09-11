@@ -30,4 +30,4 @@ spl_autoload_register('autoload');
 include($dir.D.'core'.D.'base.php');
 AutoLoad::view_load($dir);
 //实例化启动页
-new start;
+new Start;
