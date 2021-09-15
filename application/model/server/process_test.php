@@ -7,14 +7,14 @@ $process->create(function($process){
         $process->push($send);
         sleep(2);
     }
-});
+},'single');
 $process->create(function($process){
     while(1){
         $read = $process->pop();
         echo $read;
         sleep(3);
     }
-});
+},'single');
 
 
 

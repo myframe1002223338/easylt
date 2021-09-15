@@ -108,9 +108,9 @@ class Index{
         unset($this->json_value);
     }
 }
-$ob = new Index;
-$query_result = $ob->catch_params();
-$query_result = json_decode($query_result,true);
+$ob_index = new Index;
+$request = $ob_index->catch_params();
+$request = json_decode($request,true);
 
 //预加载model模型、logic逻辑文件,提取$response数据;如果model模型文件含有对应的logic逻辑文件则加载model、logic文件,否则仅加载model文件;
 if(include('..'.D.'logic'.D.$query_model.'.logic.php')){

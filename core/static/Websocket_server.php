@@ -31,11 +31,11 @@ class Websocket_server{
         $func();
        });
     }
-    public function receive($func_read,$func_write=null){
+    public function receive($func_read,$func_write='empty_null'){
         $this->serv->on('message',function($serv,$request)use($func_read,$func_write){
             $this->data = $request->data;
             $this->fd = $request->fd;
-            if($func_write!=null){
+            if($func_write!='empty_null'){
                 $func_write($this->data);
             }
             if(WEBSOCKET_CHAT_MODEL===1){

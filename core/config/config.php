@@ -22,7 +22,7 @@ define('REDIS_PORT',6379);
 //配置redis连接密码,默认为空;
 define('REDIS_AUTH','');
 //配置redis数据库名称,默认0;
-define('REDIS_DBNAME','0');
+define('REDIS_DBNAME',0);
 
 /**
  * 访问地址配置,默认为Apache配置,如果仍然用Apache配置并采用Nginx等服务器,请根据框架根目录下的.htaccess自行实现nginx.htaccess的url重写;

@@ -1,6 +1,6 @@
 <?php
-if($query_result['param']=='a'){
-    $username = $query_result['username'];
+if($request['param']=='a'){
+    $username = $request['username'];
     if($mysql_conn){
         if($username){
             //ORM操作数据库有两种写法,可组装或分组:
@@ -47,7 +47,7 @@ if($query_result['param']=='a'){
     }else{
         $data = 'unconnect';
     }
-}elseif($query_result['param']=='b'){
+}elseif($request['param']=='b'){
     $data = null;
 }
 

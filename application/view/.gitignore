@@ -1,2 +1,9 @@
+copy_test.php
 download_frame.php
 download_explain.php
+http_test.php
+rpc_test.php
+tcp_test.php
+udp_test.php
+view_mysql_test.php
+view_redis_test.php
