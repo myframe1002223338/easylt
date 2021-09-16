@@ -32,9 +32,9 @@ define('ADDRESS','http://127.0.0.1');
 //API接口地址,API_URL为默认项，仅适用于Apache;采用Nginx或其他服务器请改为NGINX_API_URL;
 define('API_URL',ADDRESS.'/m/v/p/index/');
 define('NGINX_API_URL',ADDRESS.'/application/presenter/controller/index.php/');
-//入口文件地址,VIEW_PUBLIC为默认项,仅适用于Apache;采用Nginx或其他服务器请改为NGINX_VIEW_PUBLIC;
-define('VIEW_PUBLIC',ADDRESS);
-define('NGINX_VIEW_PUBLIC',ADDRESS.'/public');
+//入口加载文件地址,VIEW_PUBLIC为默认项,仅适用于Apache;采用Nginx或其他服务器请改为NGINX_VIEW_PUBLIC;
+define('VIEW_PUBLIC',ADDRESS.'/href/');
+define('NGINX_VIEW_PUBLIC',ADDRESS.'/public?href=');
 
 /**
  * curl数据传输配置
