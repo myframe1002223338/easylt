@@ -22,9 +22,9 @@ function route_rewrite(){
     $htaccess = '<ifmodule mod_rewrite.c>
                  RewriteEngine on 
                  RewriteRule ^$ public/index.php
-                 RewriteRule ^'.APPLICATION.'/'.PRESENTER.'/'.CONTROLLER.'/index/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/$2/?$3
-                 RewriteRule ^'.APPLICATION.'/'.PRESENTER.'/'.CONTROLLER.'/index/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/?$2
-                 RewriteRule ^'.APPLICATION.'/'.PRESENTER.'/'.CONTROLLER.'/index/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1
+                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/$2/?$3
+                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/?$2
+                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1
                  RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
                  RewriteRule ^href/(.+)$  ?href=$1
                  </ifmodule>';
@@ -127,10 +127,10 @@ function presenter_dir_rewrite($dir){
             }
         }elseif($dirname=='controller' || $dirname=='logic'){
             if(APPLICATION_RENAME[3]!='controller'){
-                rename('..'.D.'application'.D.$presenter.D.$dirname,'..'.D.'application'.D.$presenter.D.APPLICATION_RENAME[3].'_controller');
+                rename('..'.D.'application'.D.$presenter.D.'controller','..'.D.'application'.D.$presenter.D.APPLICATION_RENAME[3].'_controller');
             }
             if(APPLICATION_RENAME[4]!='logic'){
-                rename('..'.D.'application'.D.$presenter.D.$dirname,'..'.D.'application'.D.$presenter.D.APPLICATION_RENAME[4].'_logic');
+                rename('..'.D.'application'.D.$presenter.D.'logic','..'.D.'application'.D.$presenter.D.APPLICATION_RENAME[4].'_logic');
             }
         }
     }

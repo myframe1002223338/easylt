@@ -29,16 +29,14 @@ spl_autoload_register('autoload');
 include($dir.D.'core'.D.'base.php');
 AutoLoad::view_load($dir);
 
-if(ROUTE_INCLUDE==1){
+if(ROUTE_RUN==1){
     //调用route方法运行路由重定向及重置目录名
     include($dir.D.'core'.D.'route.php');
-    for($i=0;$i<100;$i++){
-        core\route_rewrite();
-        core\mvp_dir_rewrite($dir);
-        core\model_dir_rewrite($dir);
-        core\presenter_dir_rewrite($dir);
-    }
-//    echo 'API-URL路由地址及重置目录名配置成功,';
+    core\route_rewrite();
+    core\mvp_dir_rewrite($dir);
+    core\model_dir_rewrite($dir);
+    core\presenter_dir_rewrite($dir);
+    exit('路由配置成功,请在config.route.php配置文件中关闭该配置!');
 }
 //实例化启动页
 new Start;
