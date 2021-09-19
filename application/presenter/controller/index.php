@@ -5,7 +5,6 @@ error_reporting(ERROR_STATE);
 header('Content-type:text/html;charset=utf-8');
 date_default_timezone_set('Asia/chongqing');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_controller.php');
-include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_route.php');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_swoole.php');
 include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_rabbitmq.php');
 
@@ -79,9 +78,9 @@ if(AUTH_ON_OFF==1){
     }
 }
 
-//加载route解析方法获取route请求参数用于路由分发
+//调用route方法获取route请求参数用于路由分发
 include('..'.D.'..'.D.'..'.D.'core'.D.'route.php');
-core\route();
+core\route_param();
 
 class Index{
     public $route_param;
@@ -112,13 +111,12 @@ $ob_index = new Index;
 $request = $ob_index->catch_params();
 $request = json_decode($request,true);
 
-//预加载model模型、logic逻辑文件,提取$response数据;如果model模型文件含有对应的logic逻辑文件则加载model、logic文件,否则仅加载model文件;
-if(include('..'.D.'logic'.D.$query_model.'.logic.php')){
-	include('..'.D.'..'.D.'model'.D.$query_model.'.php');
-    include('..'.D.'logic'.D.$query_model.'.logic.php');
-}else{
-	include('..'.D.'..'.D.'model'.D.$query_model.'.php');
-}
+//预加载model模型、logic逻辑文件,提取$response数据;
+include('..'.D.'..'.D.'model'.D.$query_model.'.php');
+include('..'.D.'..'.D.APPLICATION_RENAME[0].'_model'.D.$query_model.'.php');
+include('..'.D.'logic'.D.$query_model.'.logic.php');
+include('..'.D.APPLICATION_RENAME[4].'_logic'.D.$query_model.'.logic.php');
+
 //加载API数据返回运行类库
 include('..'.D.'..'.D.'..'.D.'core'.D.'base.php');
 AutoLoad::api_run($ob_inter,$response);

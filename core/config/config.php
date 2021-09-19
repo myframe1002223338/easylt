@@ -27,10 +27,12 @@ define('REDIS_DBNAME',0);
 /**
  * 访问地址配置,默认为Apache配置,如果仍然用Apache配置并采用Nginx等服务器,请根据框架根目录下的.htaccess自行实现nginx.htaccess的url重写;
  */
+//加载路由配置文件
+include('config_route.php');
 //服务器公网IP或域名配置,请以http://或https://开头;
 define('ADDRESS','http://127.0.0.1');
 //API接口地址,API_URL为默认项，仅适用于Apache;采用Nginx或其他服务器请改为NGINX_API_URL;
-define('API_URL',ADDRESS.'/m/v/p/index/');
+define('API_URL',ADDRESS.'/'.APPLICATION.'/'.PRESENTER.'/'.CONTROLLER.'/index/');
 define('NGINX_API_URL',ADDRESS.'/application/presenter/controller/index.php/');
 //入口加载文件地址,VIEW_PUBLIC为默认项,仅适用于Apache;采用Nginx或其他服务器请改为NGINX_VIEW_PUBLIC;
 define('VIEW_PUBLIC',ADDRESS.'/href/');

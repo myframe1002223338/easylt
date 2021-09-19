@@ -3,7 +3,11 @@ class AutoLoad{
     //view视图加载基类
     public static function view_load($dir){
         //打开view视图目录文件
-        $view_path = $dir.D.'application'.D.'view';
+        if(file_exists($dir.D.'application'.D.'view')){
+            $view_path = $dir.D.'application'.D.'view';
+        }else{
+            $view_path = $dir.D.'application'.D.APPLICATION_RENAME[5].'_view';
+        }
         $view_fopen = opendir($view_path);
         //遍历view视图目录文件
         while($view_fread = readdir($view_fopen)){
@@ -27,9 +31,17 @@ class AutoLoad{
         //获取页面href参数
         $href = $_GET['href'];
 		if(in_array($href,$new_arr)){
-		    include_once($dir.D.'application'.D.'view'.D.$href.'.php');
+		    if(include_once($dir.D.'application'.D.'view'.D.$href.'.php')){
+		        include_once($dir.D.'application'.D.'view'.D.$href.'.php');
+            }else{
+                include_once($dir.D.'application'.D.APPLICATION_RENAME[5].'_view'.D.$href.'.php');
+            }
 		}else{
-		    include_once($dir.D.'application'.D.'view'.D.'start.php');
+		    if(include_once($dir.D.'application'.D.'view'.D.'start.php')){
+                include_once($dir.D.'application'.D.'view'.D.'start.php');
+            }else{
+                include_once($dir.D.'application'.D.APPLICATION_RENAME[5].'_view'.D.'start.php');
+            }
 		}
         closedir($view_fopen);
     }
