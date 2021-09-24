@@ -31,43 +31,14 @@ define('REDIS_DBNAME',0);
 include('config_route.php');
 //服务器公网IP或域名配置,请以http://或https://开头;
 define('ADDRESS','http://127.0.0.1');
-//API接口地址,API_URL为默认项，仅适用于Apache;采用Nginx或其他服务器请改为NGINX_API_URL;
+//Index通用控制器下的API接口地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下API_URL_OTHER;
 define('API_URL',ADDRESS.'/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/');
-define('NGINX_API_URL',ADDRESS.'/application/presenter/controller/index.php/');
-//入口加载文件地址,VIEW_PUBLIC为默认项,仅适用于Apache;采用Nginx或其他服务器请改为NGINX_VIEW_PUBLIC;
+APPLICATION_RENAME[2] == 'presenter' ? define('PRESENTER',APPLICATION_RENAME[2]) : define('PRESENTER',APPLICATION_RENAME[2].'_presenter');
+APPLICATION_RENAME[3] == 'controller' ? define('CONTROLLER',APPLICATION_RENAME[3]) : define('CONTROLLER',APPLICATION_RENAME[3].'_controller');
+define('API_URL_OTHER',ADDRESS.'/application/'.APPLICATION_RENAME[2].'/'.APPLICATION_RENAME[3].'/index.php/');
+//入口加载文件地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下VIEW_PUBLIC_OTHER;
 define('VIEW_PUBLIC',ADDRESS.'/href/');
-define('NGINX_VIEW_PUBLIC',ADDRESS.'/public?href=');
-
-/**
- * curl数据传输配置
- */
-//curl-post请求配置:
-//数据回传,1为直接返回,0为直接输出;
-define('POST_RETURNTRANSFER',1);
-//是否验证SSL证书,1为开启验证,0为不验证;
-define('POST_SSL_VERIFYPEER',0);
-//是否检查SSL证书,2为检查当前域名是否与SSL证书域名匹配,0为不检查;
-define('POST_SSL_VERIFYHOST',0);
-//如果开启SSL验证则需配置SSL证书,默认不配置;
-define('POST_CAINFO','输入SSL证书绝对路径');
-//1为开启头信息,0为关闭头信息;
-define('POST_HEADER',0);
-//响应时间设置,以秒为单位;
-define('POST_TIMEOUT',10);
-
-//curl-get请求配置:
-//数据回传,1为直接返回,0为直接输出;
-define('GET_RETURNTRANSFER',1);
-//是否验证SSL证书,1为开启验证,0为不验证;
-define('GET_SSL_VERIFYPEER',0);
-//是否检查SSL证书,2为检查当前域名是否与SSL证书域名匹配,0为不检查;
-define('GET_SSL_VERIFYHOST',0);
-//如果开启SSL验证则需配置SSL证书,默认不配置;
-define('GET_CAINFO','输入SSL证书绝对路径');
-//1为开启头信息,0为关闭头信息;
-define('GET_HEADER',0);
-//响应时间设置,以秒为单位;
-define('GET_TIMEOUT',10);
+define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/index.php?href=');
 
 /**
  * 工具配置

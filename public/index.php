@@ -36,7 +36,7 @@ if(ROUTE_RUN==1){
     core\mvp_dir_rewrite($dir);
     core\model_dir_rewrite($dir);
     core\presenter_dir_rewrite($dir);
-    exit('路由配置成功,请在config.route.php配置文件中关闭该配置!');
+    exit('路由配置成功,请在config.route.php配置文件中关闭该配置!<br /><br />当前API路由地址示例(Apache服务器):'.API_URL.'model/param/key=value<br /><br />当前API路由地址示例(Nginx等服务器):'.NGINX_API_URL.'model/param/?key=value');
 }
 //实例化启动页
 new Start;

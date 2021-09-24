@@ -1,4 +1,5 @@
 <?php
+Swoole\Runtime::enableCoroutine(true);
 class Process{
     public $workers = [];
     public $pid;

@@ -1,0 +1,14 @@
+location / {
+  rewrite ^/$ /public/index.php;
+}
+
+location /m {
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2/$3/$4;
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2/$3;
+  rewrite ^/m/v/p/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2;
+}
+
+location /href {
+  rewrite ^/href/(.+)/(.+)$ /?href=$1&$2;
+  rewrite ^/href/(.+)$ /?href=$1;
+}

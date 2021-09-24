@@ -1,11 +1,12 @@
 <?php
 namespace core;
-function route_param(){
+function route_query(){
 	$query = explode('/',$_SERVER['REQUEST_URI']);
     //var_dump($query);
 	//请在config_route.php中配置$query下标参数,默认不配置;
     $GLOBALS['query_model'] = strtolower($query[OS_MODEL]);//获取API-URL中model模型文件名用于路由分发
-    $GLOBALS['query_param'] = strtolower($query[OS_PARAM]);//获取API-URL中的参数用于判断model模型文件下多接口业务分发对接
+    $GLOBALS['query_param'] = strtolower($query[OS_PARAM]);//获取API-URL中的param参数用于判断同一model模型文件下多接口业务分发对接
+    $GLOBALS['query_get'] = strtolower($query[OS_GET]);//获取API-URL中的get参数
 }
 function route_rewrite(){
     //加载路由重写内容并写入.htaccess
@@ -19,18 +20,40 @@ function route_rewrite(){
     }else{
         $controller = APPLICATION_RENAME[3];
     }
-    $htaccess = '<ifmodule mod_rewrite.c>
-                 RewriteEngine on 
-                 RewriteRule ^$ public/index.php
-                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/$2/?$3
-                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1/?$2
-                 RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/(.+)$ application/'.$presenter.'/'.$controller.'/index.php/$1
-                 RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
-                 RewriteRule ^href/(.+)$  ?href=$1
-                 </ifmodule>';
+
+    $htaccess =
+'<ifmodule mod_rewrite.c>
+         RewriteEngine on 
+         RewriteRule ^$ public/index.php
+         RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3/$4
+         RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3
+         RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2
+         RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
+         RewriteRule ^href/(.+)$  ?href=$1
+</ifmodule>';
+
+    $nginx_htaccess =
+'location / {
+  rewrite ^/$ /public/index.php;
+}
+
+location /'.API_URL_ROUTE[0].' {
+  rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3/$4;
+  rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3;
+  rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2;
+}
+
+location /href {
+  rewrite ^/href/(.+)/(.+)$ /?href=$1&$2;
+  rewrite ^/href/(.+)$ /?href=$1;
+}';
+
     $fp = fopen('..'.D.'.htaccess','w');
     fwrite($fp,$htaccess);
     fclose($fp);
+    $fp2 = fopen('..'.D.'nginx.htaccess','w');
+    fwrite($fp2,$nginx_htaccess);
+    fclose($fp2);
 }
 function mvp_dir_rewrite($dir){
     $open_dir = scandir($dir.D.'application');
