@@ -37,8 +37,12 @@ APPLICATION_RENAME[2] == 'presenter' ? define('PRESENTER',APPLICATION_RENAME[2])
 APPLICATION_RENAME[3] == 'controller' ? define('CONTROLLER',APPLICATION_RENAME[3]) : define('CONTROLLER',APPLICATION_RENAME[3].'_controller');
 define('API_URL_OTHER',ADDRESS.'/application/'.APPLICATION_RENAME[2].'/'.APPLICATION_RENAME[3].'/index.php/');
 //入口加载文件地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下VIEW_PUBLIC_OTHER;
-define('VIEW_PUBLIC',ADDRESS.'/href/');
-define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/index.php?href=');
+define('VIEW_PUBLIC',ADDRESS.'/?href=');
+define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/?href=');
+//view视图静态资源路径
+define('STATIC','/public/assets/');
+
+
 
 /**
  * 工具配置

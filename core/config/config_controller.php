@@ -44,7 +44,7 @@ define('AUTH','init');
 //配置单域名、多域名开关,1为单域名,0为多域名;
 define('URL_ON_OFF',1);
 //单域名或所有域名(*)跨域,默认为空拒绝跨域访问;
-define('SINGLE_URL','');
+define('SINGLE_URL','*');
 //多域名跨域,以下数组元素为示例;
 define('ALL_URL',['https://www.baidu.com','https://www.tmall.com']);
 

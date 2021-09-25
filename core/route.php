@@ -28,8 +28,6 @@ function route_rewrite(){
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3/$4
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/$1.php?/$2
-         RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
-         RewriteRule ^href/(.+)$  ?href=$1
 </ifmodule>';
 
     $nginx_htaccess =
@@ -41,11 +39,6 @@ location /'.API_URL_ROUTE[0].' {
   rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3/$4;
   rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2/$3;
   rewrite ^/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)$ /application/'.$presenter.'/'.$controller.'/$1.php?/$2;
-}
-
-location /href {
-  rewrite ^/href/(.+)/(.+)$ /?href=$1&$2;
-  rewrite ^/href/(.+)$ /?href=$1;
 }';
 
     $fp = fopen('..'.D.'.htaccess','w');

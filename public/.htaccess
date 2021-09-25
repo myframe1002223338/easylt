@@ -1,9 +1,0 @@
-<ifmodule mod_rewrite.c>
-                 RewriteEngine on 
-                 RewriteRule ^$ public/index.php
-                 RewriteRule ^a/index/(.+)/(.+)/(.+)$ application/presenter/controller/index.php/$1/$2/?$3
-                 RewriteRule ^a/index/(.+)/(.+)$ application/presenter/controller/index.php/$1/?$2
-                 RewriteRule ^a/index/(.+)$ application/presenter/controller/index.php/$1
-                 RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
-                 RewriteRule ^href/(.+)$  ?href=$1
-                 </ifmodule>

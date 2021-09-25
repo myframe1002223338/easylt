@@ -4,6 +4,4 @@
          RewriteRule ^m/v/p/(.+)/(.+)/(.+)/(.+)$ application/presenter/controller/$1.php?/$2/$3/$4
          RewriteRule ^m/v/p/(.+)/(.+)/(.+)$ application/presenter/controller/$1.php?/$2/$3
          RewriteRule ^m/v/p/(.+)/(.+)$ application/presenter/controller/$1.php?/$2
-         RewriteRule ^href/(.+)/(.+)$  ?href=$1&$2
-         RewriteRule ^href/(.+)$  ?href=$1
 </ifmodule>
