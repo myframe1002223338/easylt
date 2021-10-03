@@ -123,4 +123,11 @@ class Response{
     }
 }
 
-
+//根据路由运行控制器
+if(file_exists($query_controller.'.php') && $query_controller!='index'){
+    include($query_controller.'.php');
+}elseif($query_controller=='index'){
+    new Index;
+}else{
+    exit('API路由配置有误!');
+}

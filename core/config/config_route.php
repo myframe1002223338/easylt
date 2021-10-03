@@ -2,6 +2,8 @@
 /**
  * 配置路由$_SERVER['REQUEST_URI']参数在不同运行环境下的数组下标,默认不配置;
  */
+//配置API-URL中controller控制器文件名数组下标
+define('OS_CONTROLLER',4);
 //配置API-URL中model模型文件名数组下标
 define('OS_MODEL',5);
 //配置API-URL中param参数数组下标

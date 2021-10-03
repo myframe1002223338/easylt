@@ -3,7 +3,7 @@ location / {
 }
 
 location /m {
-  rewrite ^/m/v/p/(.+)/(.+)/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2/$3/$4;
-  rewrite ^/m/v/p/(.+)/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2/$3;
-  rewrite ^/m/v/p/(.+)/(.+)$ /application/presenter/controller/$1.php?/$2;
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1/$2/$3;
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1/$2;
+  rewrite ^/m/v/p/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1;
 }

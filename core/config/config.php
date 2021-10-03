@@ -13,7 +13,7 @@ define('DB_CHARSET','utf8mb4');
 //配置mysql数据库名称
 define('DB_NAME','easylt_test');
 
-//配置是否加载redis连接类库,1为加载,0为不加载(默认不加载,加载时如果未开启redis-server会报错);
+//配置是否加载redis连接类库,1为加载,0为不加载(默认不加载,加载时如果未开启redis-server会异常导致程序无法执行);
 define('REDIS_INCLUDE',0);
 //配置redis连接地址,默认127.0.0.1
 define('REDIS_HOST','127.0.0.1');
@@ -32,10 +32,10 @@ include('config_route.php');
 //服务器公网IP或域名配置,请以http://或https://开头;
 define('ADDRESS','http://127.0.0.1');
 //Index通用控制器下的API接口地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下API_URL_OTHER;
-define('API_URL',ADDRESS.'/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/index/');
+define('API_URL',ADDRESS.'/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/Index/');
 APPLICATION_RENAME[2] == 'presenter' ? define('PRESENTER',APPLICATION_RENAME[2]) : define('PRESENTER',APPLICATION_RENAME[2].'_presenter');
 APPLICATION_RENAME[3] == 'controller' ? define('CONTROLLER',APPLICATION_RENAME[3]) : define('CONTROLLER',APPLICATION_RENAME[3].'_controller');
-define('API_URL_OTHER',ADDRESS.'/application/'.APPLICATION_RENAME[2].'/'.APPLICATION_RENAME[3].'/index.php/');
+define('API_URL_OTHER',ADDRESS.'/application/'.PRESENTER.'/'.CONTROLLER.'/Index.php/');
 //入口加载文件地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下VIEW_PUBLIC_OTHER;
 define('VIEW_PUBLIC',ADDRESS.'/?href=');
 define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/?href=');

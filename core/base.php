@@ -32,13 +32,13 @@ class AutoLoad{
         $href = $_GET['href'];
 		if(in_array($href,$new_arr)){
 		    if(include_once($dir.D.'application'.D.'view'.D.$href.'.php')){
-		        include_once($dir.D.'application'.D.'view'.D.$href.'.php');
+
             }else{
                 include_once($dir.D.'application'.D.APPLICATION_RENAME[5].'_view'.D.$href.'.php');
             }
 		}else{
 		    if(include_once($dir.D.'application'.D.'view'.D.'start.php')){
-                include_once($dir.D.'application'.D.'view'.D.'start.php');
+
             }else{
                 include_once($dir.D.'application'.D.APPLICATION_RENAME[5].'_view'.D.'start.php');
             }
