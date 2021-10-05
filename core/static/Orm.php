@@ -1,6 +1,74 @@
 <?php
 use core\static_formwork\Connect_mysql\Connect_mysql as Connect_mysql;
-class Orm{
+class Orm extends Connect_mysql{
+    public function db($sql){
+        for($i=0;$i<4;$i++){
+            switch($i){
+                case 0:$pattern = '/(^select)/i';
+                    break;
+                case 1:$pattern = '/(^insert)/i';
+                    break;
+                case 2:$pattern = '/(^delete)/i';
+                    break;
+                case 3:$pattern = '/(^update)/i';
+                    break;
+            }
+            $match_result = preg_match($pattern,$sql,$match);
+            if($match_result==1 && $match[0]=='select'){
+                $result = mysqli_query(Connect_mysql::get(),$sql);
+                if(!$result){
+                    $error = date('y-m-d h:i:s',time()).mysqli_error(Connect_mysql::get()).PHP_EOL;
+                    error_log($error,3,'mysql_errors.log');
+                }
+                $arr = [];
+                while($assoc=mysqli_fetch_assoc($result)){
+                    $arr[] = $assoc;
+                }
+                mysqli_free_result($result);
+                mysqli_close(Connect_mysql::get());
+                return $arr;
+            }elseif($match_result==1 && $match[0]=='insert'){
+                $result = mysqli_query(Connect_mysql::get(),$sql);
+                if(!$result){
+                    $error = date('y-m-d h:i:s',time()).mysqli_error(Connect_mysql::get()).PHP_EOL;
+                    error_log($error,3,'mysql_errors.log');
+                }
+                $run_state = ['affected'=>mysqli_affected_rows(Connect_mysql::get()),'insert_id'=>mysqli_insert_id(Connect_mysql::get())];
+                mysqli_close(Connect_mysql::get());
+                return $run_state;
+            }elseif($match_result==1 && $match[0]=='delete'){
+                $pattern_where = '/(where)/i';
+                $where_result = preg_match($pattern_where,$sql,$match);
+                if($where_result==1){//删除数据必须设置条件,否则删除失败
+                    $result = mysqli_query(Connect_mysql::get(),$sql);
+                    if(!$result){
+                        $error = date('y-m-d h:i:s',time()).mysqli_error(Connect_mysql::get()).PHP_EOL;
+                        error_log($error,3,'mysql_errors.log');
+                    }
+                    $run_state = ['affected'=>mysqli_affected_rows(Connect_mysql::get())];
+                }else{
+                    $run_state = ['affected'=>null];
+                }
+                mysqli_close(Connect_mysql::get());
+                return $run_state;
+            }elseif($match_result==1 && $match[0]=='update'){
+                $pattern_where = '/(where)/i';
+                $where_result = preg_match($pattern_where,$sql,$match);
+                if($where_result==1){//更新数据必须设置条件,否则更新失败
+                    $result = mysqli_query(Connect_mysql::get(),$sql);
+                    if(!$result){
+                        $error = date('y-m-d h:i:s',time()).mysqli_error(Connect_mysql::get()).PHP_EOL;
+                        error_log($error,3,'mysql_errors.log');
+                    }
+                    $run_state = mysqli_affected_rows(Connect_mysql::get());
+                }else{
+                    $run_state = ['affected'=>null];
+                }
+                mysqli_close(Connect_mysql::get());
+                return $run_state;
+            }
+        }
+    }
     public function model($model){
         switch($model){
             case 'select':return new SELECT;
