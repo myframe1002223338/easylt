@@ -1,6 +1,7 @@
 copy_test.php
 download_frame.php
 download_explain.php
+download_slim_explain.php
 http_test.php
 rpc_test.php
 tcp_test.php

@@ -33,6 +33,7 @@ function route_rewrite(){
 
     $nginx_htaccess =
 'location / {
+  deny all;
   rewrite ^/$ /public/index.php;
 }
 

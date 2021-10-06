@@ -1,4 +1,8 @@
-<!DOCTYPE HTML>
+<?php
+class Start{
+    public function __construct(){
+        echo
+'<!DOCTYPE HTML>
 
 <html>
 
@@ -50,7 +54,7 @@
 
     <h1 style="font-size:20px;font-weight:normal;margin-bottom:12px;color:#99857d;position:absolute;top:0px">
 
-        EASYLT
+            EASYLT
 
         <span style="color:#99857d;font-size:40px;font-family:Sans-serif;position:absolute;top:0px;left:75px">
 
@@ -64,7 +68,7 @@
 
         <ul>
 
-            <li><a href="http://127.0.0.1/?href=version">版本信息</a></li>
+            <li><a href="'.VIEW_PUBLIC.'version">历史版本</a></li>
 
 <!--            <li>-->
 <!---->
@@ -72,9 +76,9 @@
 <!---->
 <!--                <ul>-->
 <!---->
-<!--                    <li><a href="http://127.0.0.1/?href=use_frame">框架部署</a></li>-->
+<!--                    <li><a href="">框架部署</a></li>-->
 <!---->
-<!--                    <li><a href="http://127.0.0.1/?href=web_frame">使用框架</a></li>-->
+<!--                    <li><a href="">使用框架</a></li>-->
 <!---->
 <!--                    <li>-->
 <!---->
@@ -82,9 +86,9 @@
 <!---->
 <!--                        <ul>-->
 <!---->
-<!--                            <li><a href="http://127.0.0.1/?href=swoole_frame">Swoole</a></li>-->
+<!--                            <li><a href="">Swoole</a></li>-->
 <!---->
-<!--                            <li><a href="http://127.0.0.1/?href=rabbitmq_frame">RabbitMQ</a></li>-->
+<!--                            <li><a href="">RabbitMQ</a></li>-->
 <!---->
 <!--                        </ul>-->
 <!---->
@@ -114,9 +118,9 @@
 
     <ul class="actions">
 
-        <li><a href="http://easylt.cn/?href=download_frame" class="button special">下载框架</a></li>
+        <li><a href="'.VIEW_PUBLIC.'download_frame" class="button special">下载框架</a></li>
 
-        <li><a href="http://easylt.cn/?href=download_explain" class="button">下载手册</a></li>
+        <li><a href="'.VIEW_PUBLIC.'download_explain" class="button">下载手册</a></li>
 
     </ul>
 
@@ -274,9 +278,9 @@
 
     <ul class="icons" style="color:#FFFFFF">
 
-        <li><a href="http://127.0.0.1" class="icon fa-home"><span class="label">home</span></a></li>
+        <li><a href="'.ADDRESS.'" class="icon fa-home"><span class="label">home</span></a></li>
 
-        <li><a href="#" class="icon fa-github"><span class="label">github</span></a></li>
+        <li><a href="https://github.com/myframe1002223338/easylt/tree/master" class="icon fa-github"><span class="label">github</span></a></li>
 
     </ul>
 
@@ -290,10 +294,7 @@
 
 </body>
 
-</html>
-<?php
-class Start{
-    public function __construct(){
+</html>';
         //echo '<head><link rel="icon" href="/public/assets/icon.png"><title>EASYLT</title><style type="text/css">*{padding:0;margin:0;}a{text-decoration:none;color:grey}h1{font-size:100px;font-weight:normal;margin-bottom:12px;color:#6bc5a4}p{line-height:1.6em;font-size:42px}</style></head><body><div style="padding:24px 48px;"><h1>EASYLT&nbsp<span style="color:#c9d1d6;font-size:125px;font-family:Sans-serif">3</span></h1><p><span style="font-size:25px;color:#333333">&nbsp欢迎使用EASYLT v3.0&nbsp&nbsp&nbsp初次使用请仔细阅读</span><a href="http://www.easylt.cn/href/download_explain" style="font-size:23px;">【EASYLT框架手册】</a></div><div style="position:absolute;top:90%;left:0;right:0;text-align:center;color:grey"><a href="http://www.easylt.cn">EASYLT官网</a> | Copyright © liteng</div></body>';
     }
 }

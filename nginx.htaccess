@@ -1,4 +1,5 @@
 location / {
+  deny all;
   rewrite ^/$ /public/index.php;
 }
 
