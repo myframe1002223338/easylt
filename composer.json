@@ -1,0 +1,16 @@
+{
+    "name": "easylt3/easylt3",
+    "description": "Welcome to easylt",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "liteng",
+            "email": "1002223338@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+          "easylt3/easylt3":"dev-master"
+      }
+}

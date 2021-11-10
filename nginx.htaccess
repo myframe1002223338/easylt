@@ -1,0 +1,10 @@
+location / {
+  deny all;
+  rewrite ^/$ /public/index.php;
+}
+
+location /m {
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1/$2/$3;
+  rewrite ^/m/v/p/(.+)/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1/$2;
+  rewrite ^/m/v/p/(.+)/(.+)$ /application/presenter/controller/Index.php?/$1;
+}
