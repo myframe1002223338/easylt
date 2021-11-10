@@ -1,8 +1,0 @@
-copy.php
-copy_test1.php
-copy_test2.php
-http_cli_test.php
-mysql_test.php
-redis_test.php
-tcp_cli_test.php
-udp_cli_test.php
