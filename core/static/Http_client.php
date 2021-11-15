@@ -10,7 +10,7 @@ class Http_client{
         $this->port = $port;
     }
     public function post($data){
-        if(!extension_loaded('src')){
+        if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
         $data = [$data];
@@ -44,7 +44,7 @@ class Http_client{
         return $output;
     }
     public function get($data){
-        if(!extension_loaded('src')){
+        if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
         $cu = curl_init();
