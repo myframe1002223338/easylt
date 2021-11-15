@@ -10,9 +10,6 @@ class Http_client{
         $this->port = $port;
     }
     public function post($data){
-        if(!extension_loaded('swoole')){
-            exit('请安装swoole扩展');
-        }
         $data = [$data];//无论请求数据类型是否为数组,都进行预处理封装一层数组;
         foreach ($data as $k=>$v){//对传入的数据进行处理,否则无法成功发送数据;
             $new_data[$k] =$v; 
@@ -44,9 +41,6 @@ class Http_client{
         return $output;
     }
     public function get($data){
-        if(!extension_loaded('swoole')){
-            exit('请安装swoole扩展');
-        }
         $cu = curl_init();
         if($this->ip==null && $this->port!=null){
             curl_setopt($cu,CURLOPT_URL,HTTP_GET_CLI_IP.':'.$this->port.$data);

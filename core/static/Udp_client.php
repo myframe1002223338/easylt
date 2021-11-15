@@ -5,9 +5,6 @@ class Udp_client{
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
-        if(!extension_loaded('swoole')){
-            exit('请安装swoole扩展');
-        }
         $this->cli = new swoole_client(SWOOLE_SOCK_UDP);
         if($ip==null && $port!=null){
             $this->cli->connect(UDP_CLI_IP,$port) or die('连接失败，请检查配置及UDP服务器是否启动！');
