@@ -5,6 +5,9 @@ class Tcp_client{
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
+        if(!extension_loaded('swoole')){
+            exit('请安装swoole扩展');
+        }
         $this->cli = new swoole_client(SWOOLE_SOCK_TCP);
         if($ip==null && $port!=null){
             $this->cli->connect(TCP_CLI_IP,$port,TCP_TIME_OUT) or die('连接失败，请检查配置及TCP服务器是否启动！');
