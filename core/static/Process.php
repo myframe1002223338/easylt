@@ -3,7 +3,7 @@ class Process{
     public $workers = [];
     public $pid;
     public $model;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function create($func,$model='empty_null'){

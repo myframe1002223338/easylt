@@ -1,4 +1,5 @@
 <?php
+//同步redis,内存常驻运行模式下不可采用单例模式;
 class Sync_redis{
     public static function co($func){
         if(REDIS_INCLUDE==1){

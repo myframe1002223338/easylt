@@ -1,7 +1,7 @@
 <?php
 class Udp_server{
     public $serv;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
@@ -30,7 +30,7 @@ class Udp_server{
     public function receive($func){
         $this->serv->on('Packet', function ($serv,$data,$clientInfo)use($func){
             $send = $func($data);
-            if(is_array($send)){
+            if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                $send = json_encode($send,256+64);
             }
             $serv->sendto($clientInfo['address'],$clientInfo['port'],$send);

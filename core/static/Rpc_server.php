@@ -1,7 +1,7 @@
 <?php
 class Rpc_server{
     public $serv;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
@@ -40,7 +40,7 @@ class Rpc_server{
                $function_name = $arr[0];
                $function_param = explode(',',rtrim($arr[1],')'));
                $result = $func($function_name,$function_param);
-               if(is_array($result)){
+               if(is_array($result)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                    $result = json_encode($result,256+64);
                }
                $serv->send($fd,$result);

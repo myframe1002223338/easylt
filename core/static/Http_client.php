@@ -2,7 +2,7 @@
 class Http_client{
     public $ip;
     public $port;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
@@ -13,8 +13,8 @@ class Http_client{
         if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
-        $data = [$data];
-        foreach ($data as $k=>$v){
+        $data = [$data];//无论请求数据类型是否为数组,都进行预处理封装一层数组;
+        foreach ($data as $k=>$v){//对传入的数据进行处理,否则无法成功发送数据;
             $new_data[$k] =$v; 
         }
         $arr = [];

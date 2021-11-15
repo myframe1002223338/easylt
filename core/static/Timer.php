@@ -12,7 +12,7 @@ class Timer{
             Timer::$time_routing = $time_id;
             $func();
             if($end!=null){
-                $end_time = $end - $ttl;
+                $end_time = $end - $ttl;//$ttl时间后才开始loop循环,所以$end结束时间要减去第一次进入loop循环的时间;
                 swoole_timer_after($end_time,function()use($time_id){
                     swoole_timer_clear($time_id);
                 });

@@ -3,7 +3,7 @@ class Websocket_server{
     public $serv;
     public $data;
     public $fd;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
@@ -47,7 +47,7 @@ class Websocket_server{
             if(WEBSOCKET_CHAT_MODEL===1){
                 swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func_read){
                        $send = $func_read($this->data);
-                       if(is_array($send)){
+                       if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                        $send = json_encode($send,256+64);
                        }
                        if($send!=null){
@@ -57,7 +57,7 @@ class Websocket_server{
             }else{
                 swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func_read){
                       $send = $func_read($this->data);
-                      if(is_array($send)){
+                      if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                       $send = json_encode($send,256+64);
                       }
                       if($send!=null){

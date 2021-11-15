@@ -1,7 +1,7 @@
 <?php
 class Http_server{
     public $serv;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($ip=null,$port=null){
@@ -33,14 +33,14 @@ class Http_server{
         $GLOBALS['server'] = $this->serv;
         $this->serv->on('request',function($request,$response)use($func){
             $post = [];
-            foreach($request->post as $v){
+            foreach($request->post as $v){//对传入的post数据进行处理,否则无法成功发送数据;
                 $post[] = json_decode($v,true);
             }
             $post = json_encode($post,256+64);
-            $get = json_encode($request->get,256+64);
+            $get = json_encode($request->get,256+64);//对传入的get数据进行处理,否则无法成功发送数据;
             $data = ['post'=>$post,'get'=>$get];
             $send = $func($post,$get);
-            if(is_array($send)){
+            if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                 $send = json_encode($send,256+64);
             }
             $response->header('Content-Type:test','html;charset=utf-8');
