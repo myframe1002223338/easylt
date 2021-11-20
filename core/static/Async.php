@@ -1,5 +1,6 @@
 <?php
 use Swoole\Coroutine;
+use Swoole\Coroutine\Channel;
 use function Swoole\Coroutine\run;
 class Async{
     public function __construct($func){
@@ -10,7 +11,8 @@ class Async{
             exit('请安装swoole扩展');
         }
         run(function()use($func){
-            $func();
+            $channel = new Channel(1);
+            $func($channel);
         });
     }
     public static function co($func){
