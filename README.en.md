@@ -8,11 +8,11 @@ The framework adopts a new msvp architecture. Msvp is an upgraded version of MVC
 
 #### Download and install
 
-1. [http://www.easylt.cn](http://www.easylt.cn)Download directly from the official website, and you can download the old version in the historical version.
+1. [https://www.easylt.cn](https://www.easylt.cn)Download directly from the official website, and you can download the old version in the historical version.
 
 2. GIT download：<code>git clone https://github.com/myframe1002223338/easylt.git</code>
 
-3. wget download：<code>wget http://easylt.cn/easylt.zip</code>
+3. wget download：<code>wget https://easylt.cn/easylt.zip</code>
 
 4. composer installation instructions：composer create-project "easylt3/easylt3":"dev-master"
 
@@ -28,7 +28,7 @@ The framework adopts a new msvp architecture. Msvp is an upgraded version of MVC
 
 #### Document
 
-[EASYLT 3 Development Manual](http://www.easylt.cn/?href=download_explain)
+[EASYLT 3 Development Manual](https://www.easylt.cn/?href=download_explain)
 
 #### Copyright Information
 
@@ -36,7 +36,7 @@ Easylt 3 is released in accordance with MIT open source agreement and provides f
 
 The copyright information of the third-party source code and binary files contained in this project will be marked separately.
 
-Copyright © 2006-2020 by Li Teng ([http://www.easylt.cn ]( http://www.easylt.cn/ )) All rights reserved。
+Copyright © 2006-2020 by Li Teng ([https://www.easylt.cn ]( https://www.easylt.cn/ )) All rights reserved。
 
 See LICENSE for more details
 

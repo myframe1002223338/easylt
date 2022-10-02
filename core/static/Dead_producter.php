@@ -11,7 +11,7 @@ class Dead_producter{
     public $dead_routing;
     public $queue;
     public $dead_queue;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($v_host,$exchange,$dead_exchange,$routing,$dead_routing,$queue,$dead_queue,$ttl){

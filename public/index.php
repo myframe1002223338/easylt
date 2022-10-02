@@ -10,8 +10,7 @@
 // [ 应用入口文件 ]
 $dir = dirname(__DIR__);
 include($dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
-include($dir.D.'core'.D.'base.php');
-AutoLoad::view_load($dir);
+include($dir.D.'core'.D.'base_view.php');
 
 
 

@@ -1,6 +1,8 @@
 <?php
 /**
  * 头信息配置
+ * !如果无法读取Authorization值且服务器为Apache,请保证php版本>=7.3并在在.htaccess中配置以下即可恢复正常:
+ * SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
  */
 //配置在controller控制器中是否验证头信息,1为验证,0为不验证(默认不验证)
 define('AUTH_ON_OFF',0);

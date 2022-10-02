@@ -11,7 +11,7 @@ define('DB_HOST','127.0.0.1');
 //配置mysql字符集
 define('DB_CHARSET','utf8mb4');
 //配置mysql数据库名称
-define('DB_NAME','easylt_test');
+define('DB_NAME','');
 
 //配置是否使用redis,1为使用,0为不使用(默认不使用,使用时如果未开启redis-server会异常导致程序无法执行);
 define('REDIS_INCLUDE',0);

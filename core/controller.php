@@ -21,6 +21,7 @@ function autoload(){
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Http_client.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Rpc_client.php');
     include('..'.D.'..'.D.'..'.D.'extend'.D.'rabbitmq'.D.'vendor'.D.'autoload.php');
+    include('..'.D.'..'.D.'..'.D.'extend'.D.'phpexcel'.D.'PHPExcel.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_producter.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_consumer.php');
     include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Fanout_producter.php');
@@ -58,23 +59,41 @@ $curl_get = new Curl_get;
 if(URL_ON_OFF==1){
     //设置API跨域参数(单域名或所有域名(*)配置)
     header('Access-Control-Allow-Origin:'.SINGLE_URL);
+    header('Access-Control-Allow-Methods:*');
+    header('Access-Control-Request-Methods:*');
+    //响应的设置
+    header('Access-Control-Allow-Headers:*');
+    //请求的设置
+    header('Access-Control-Request-Headers:*');
+    //响应请求是否可以暴露于该页面,true为允许,false为不允许
+    header('Access-Control-Allow-Credentials: true');
+    //发送一个报头，告诉浏览器当前页面不进行缓存,每次访问的时间必须从服务器上读取最新的数据,会影响性能,默认不应用
+    //header("Cache-Control: no-cache, must-revalidate");
 }else{
     //设置API跨域参数(多域名配置)
     foreach(ALL_URL as $v){
         header('Access-Control-Allow-Origin:'.$v);
+        header('Access-Control-Allow-Methods:*');
+        header('Access-Control-Request-Methods:*');
+        header('Access-Control-Allow-Headers:*');
+        header('Access-Control-Request-Headers:*');
+        header('Access-Control-Allow-Credentials: true');
+        //header("Cache-Control: no-cache, must-revalidate");
     }
+}
+
+//获取头信息
+$headers_message = [];
+foreach(getallheaders() as $key => $value){
+    $headers_message[$key] = $value;
 }
 
 //验证头信息,默认不开启,请在config_controller.php中配置是否开启;
 if(AUTH_ON_OFF==1){
     //头信息Authorization验证,不合法的请求将拒绝;
-    $Authorization = [];
-    foreach(getallheaders() as $key => $value){
-        $Authorization[$key] = $value;
-    }
-    if($Authorization['Authorization']!==AUTH){
-        $ob_inter->state('401','Authorization is wrong!','头信息验证失败！');
-        die;
+    if($headers_message['Authorization']!==AUTH){
+        $ob_inter->state(401,'Authorization is wrong!','头信息验证失败！');
+        exit;
     }
 }
 
@@ -123,11 +142,11 @@ if(file_exists('..'.D.APPLICATION_RENAME[4].'_logic'.D.$query_model.'.logic.php'
 }
 
 //加载API数据返回运行类库
-include('..'.D.'..'.D.'..'.D.'core'.D.'base.php');
+include('..'.D.'..'.D.'..'.D.'core'.D.'base_api.php');
 class Response{
     public static function data($response){
         global $ob_inter;
-        AutoLoad::api_run($ob_inter,$response);
+        BaseApi::api_run($ob_inter,$response);
     }
 }
 

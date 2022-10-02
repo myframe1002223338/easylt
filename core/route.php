@@ -2,12 +2,15 @@
 namespace core;
 function route_query(){
 	$query = explode('/',$_SERVER['REQUEST_URI']);
-    @$GLOBALS['query_controller'] = strtolower($query[OS_CONTROLLER]);
-    @$GLOBALS['query_model'] = strtolower($query[OS_MODEL]);
-    @$GLOBALS['query_param'] = strtolower($query[OS_PARAM]);
-    @$GLOBALS['query_get'] = strtolower($query[OS_GET]);
+    //var_dump($query);
+	//请在config_route.php中配置$query下标参数,默认不配置;
+    @$GLOBALS['query_controller'] = strtolower($query[OS_CONTROLLER]);//获取API-URL中controller控制器文件名用于路由分发
+    @$GLOBALS['query_model'] = strtolower($query[OS_MODEL]);//获取API-URL中model模型文件名用于路由分发
+    @$GLOBALS['query_param'] = strtolower($query[OS_PARAM]);//获取API-URL中的param参数用于判断同一model模型文件下多接口业务分发对接
+    @$GLOBALS['query_get'] = strtolower($query[OS_GET]);//获取API-URL中的get参数
 }
 function route_rewrite(){
+    //加载路由重写内容并写入.htaccess
     if(APPLICATION_RENAME[2]!='presenter'){
         $presenter = APPLICATION_RENAME[2].'_presenter';
     }else{

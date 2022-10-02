@@ -5,7 +5,7 @@ class Fanout_consumer{
     public $channel;
     public $exchange;
     public $queue;
-    private function __clone(){
+    private function __clone(){//禁用克隆模式
         // TODO: Implement __clone() method.
     }
     public function __construct($v_host,$exchange,$queue=null){
