@@ -39,7 +39,12 @@ class Http_server{
             $post = json_encode($post,256+64);
             $get = json_encode($request->get,256+64);//对传入的get数据进行处理,否则无法成功发送数据;
             $data = ['post'=>$post,'get'=>$get];
-            $send = $func($post,$get);
+            //获取头信息
+            $headers_message = [];
+            foreach(getallheaders() as $key => $value){
+                $headers_message[$key] = $value;
+            }
+            $send = $func($post,$get,$headers_message);
             if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
                 $send = json_encode($send,256+64);
             }

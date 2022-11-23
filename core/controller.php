@@ -56,6 +56,9 @@ use core\static_formwork\Curl_get\Curl_get as Curl_get;
 //实例化curl-get数据传输类库
 $curl_get = new Curl_get;
 
+//实例化PHPExcel类库
+$excel = new PHPExcel();
+
 if(URL_ON_OFF==1){
     //设置API跨域参数(单域名或所有域名(*)配置)
     header('Access-Control-Allow-Origin:'.SINGLE_URL);

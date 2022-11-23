@@ -9,7 +9,7 @@ class Http_client{
         $this->ip = $ip;
         $this->port = $port;
     }
-    public function post($data){
+    public function post($data,$headers){
         if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
@@ -37,13 +37,16 @@ class Http_client{
         if(HTTP_POST_SSL_VERIFYPEER===1){
             curl_setopt($cu,CURLOPT_CAINFO,HTTP_POST_CAINFO);
         }
+        if(is_array($headers)){
+            curl_setopt($cu,CURLOPT_HTTPHEADER,$headers);
+        }
         curl_setopt($cu,CURLOPT_HEADER,HTTP_POST_HEADER);
         curl_setopt($cu,CURLOPT_TIMEOUT,HTTP_POST_TIMEOUT);
         $output = curl_exec($cu);
         curl_close($cu);
         return $output;
     }
-    public function get($data){
+    public function get($data,$headers){
         if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
@@ -60,6 +63,9 @@ class Http_client{
         curl_setopt($cu,CURLOPT_SSL_VERIFYHOST,HTTP_GET_SSL_VERIFYHOST);
         if(HTTP_GET_SSL_VERIFYPEER===1){
             curl_setopt($cu,CURLOPT_CAINFO,HTTP_GET_CAINFO);
+        }
+        if(is_array($headers)){
+            curl_setopt($cu,CURLOPT_HTTPHEADER,$headers);
         }
         curl_setopt($cu,CURLOPT_HEADER,HTTP_GET_HEADER);
         curl_setopt($cu,CURLOPT_TIMEOUT,HTTP_GET_TIMEOUT);
