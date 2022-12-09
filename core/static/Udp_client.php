@@ -16,7 +16,6 @@ class Udp_client{
         }else{
             $this->cli->connect(UDP_CLI_IP,UDP_CLI_PORT) or die('连接失败，请检查配置及UDP服务器是否启动！');
         }
-        
     }
     public function send($func){
         $data = $func();
