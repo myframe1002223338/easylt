@@ -1,7 +1,7 @@
 <?php
 namespace core\static_formwork\Curl_get;
 class Curl_get{
-    public function get($url,$headers){
+    public function get($url,$headers=null){
         $cu = curl_init();
         curl_setopt($cu,CURLOPT_URL,$url);
         curl_setopt($cu,CURLOPT_RETURNTRANSFER,GET_RETURNTRANSFER);

@@ -1,7 +1,7 @@
 <?php
 namespace core\static_formwork\Curl;
 class Curl{
-    public function post($url,$data,$headers,$status=null){
+    public function post($url,$data,$headers=null,$status=null){
         $cu = curl_init();
         curl_setopt($cu,CURLOPT_URL,$url);
         curl_setopt($cu,CURLOPT_RETURNTRANSFER,POST_RETURNTRANSFER);
