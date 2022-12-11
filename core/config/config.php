@@ -43,7 +43,7 @@ define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/?href=');
 define('STATIC','/public/assets/');
 
 /**
- * curl数据传输配置
+ * cURL数据传输配置
  */
 //curl-post请求配置:
 //数据回传,1为直接返回,0为直接输出;

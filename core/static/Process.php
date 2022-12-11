@@ -59,7 +59,7 @@ class Process{
                 unset($this->workers[$this->pid]);
             }
         }else{
-            swoole_process::wait();
+                swoole_process::wait();
         }
         unset($this->model);
     }

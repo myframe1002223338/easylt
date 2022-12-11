@@ -14,7 +14,7 @@ class Http_client{
             exit('请安装swoole扩展');
         }
         $data = [$data];//无论请求数据类型是否为数组,都进行预处理封装一层数组;
-        foreach ($data as $k=>$v){//对传入的数据进行处理,否则无法成功发送数据;
+        foreach($data as $k=>$v){//对传入的数据进行处理,否则无法成功发送数据;
             $new_data[$k] =$v; 
         }
         $arr = [];
