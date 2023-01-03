@@ -14,12 +14,12 @@ define('TCP_SERV_MODEL',SWOOLE_PROCESS);
 define('TCP_SERV_DAEMONIZE',1);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('TCP_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
 define('TCP_SERV_MAX_REQUEST',3000);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('TCP_SERV_TASK',0);
-//配置服务器task异步进程数,建议进程数为cpu核数1-4倍;
-define('TCP_SERV_TASK_NUM',10);
+//配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
+define('TCP_SERV_TASK_NUM',100);
 
 /**
  * 配置TCP客户端
@@ -46,12 +46,12 @@ define('UDP_SERV_MODEL',SWOOLE_PROCESS);
 define('UDP_SERV_DAEMONIZE',1);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('UDP_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
 define('UDP_SERV_MAX_REQUEST',3000);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('UDP_SERV_TASK',0);
-//配置服务器task异步进程数,建议进程数为cpu核数1-4倍;
-define('UDP_SERV_TASK_NUM',10);
+//配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
+define('UDP_SERV_TASK_NUM',100);
 
 /**
  * 配置UDP客户端
@@ -74,12 +74,12 @@ define('HTTP_SERV_PORT',9503);
 define('HTTP_SERV_DAEMONIZE',1);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('HTTP_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
 define('HTTP_SERV_MAX_REQUEST',3000);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('HTTP_SERV_TASK',0);
-//配置服务器task异步进程数,建议进程数为cpu核数1-4倍;
-define('HTTP_SERV_TASK_NUM',10);
+//配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
+define('HTTP_SERV_TASK_NUM',100);
 
 /**
  * 配置HTTP客户端,客户端采用curl与服务器进行数据传输;
@@ -133,7 +133,7 @@ define('WEBSOCKET_SERV_PORT',9504);
 define('WEBSOCKET_SERV_DAEMONIZE',1);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('WEBSOCKET_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
 define('WEBSOCKET_SERV_MAX_REQUEST',3000);
 //配置服务器循环定时返回数据间隔时间,以毫秒为单位;
 define('WEBSOCKET_RESPONSE_TIME',3000);
@@ -145,13 +145,8 @@ define('WEBSOCKET_HEARTHBEAT_IDLE_TIME',65);
 define('WEBSOCKET_CHAT_MODEL',1);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('WEBSOCKET_SERV_TASK',0);
-//配置服务器task异步进程数,建议进程数为cpu核数1-4倍;
-define('WEBSOCKET_SERV_TASK_NUM',10);
-
-/**
- * 配置WEBSOCKET客户端
- * 请参考view视图目录下的websocket_test.php进行实现
- */
+//配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
+define('WEBSOCKET_SERV_TASK_NUM',100);
  
  /**
  * 配置RPC服务器
@@ -168,12 +163,12 @@ define('RPC_SERV_MODEL',SWOOLE_PROCESS);
 define('RPC_SERV_DAEMONIZE',1);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('RPC_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
 define('RPC_SERV_MAX_REQUEST',3000);
 //配置服务器是否开启task异步任务,1为开启,0为关闭;
 define('RPC_SERV_TASK',0);
-//配置服务器task异步进程数,建议进程数为cpu核数1-4倍;
-define('RPC_SERV_TASK_NUM',10);
+//配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
+define('RPC_SERV_TASK_NUM',100);
 
 /**
  * 配置RPC客户端
