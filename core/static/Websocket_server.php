@@ -34,7 +34,7 @@ class Websocket_server{
     }
     public function connect($func){
         $this->serv->on('open',function($serv,$request)use($func){
-        $func();
+			$func();
         });
     }
     public function receive($func_read,$func_write='empty_null'){
@@ -42,13 +42,13 @@ class Websocket_server{
             $this->data = $request->data;
             $this->fd = $request->fd;
             if($func_write!='empty_null'){
-                $func_write($this->data);
+				$func_write($this->data);
             }
             if(WEBSOCKET_CHAT_MODEL===1){
                 swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func_read){
                        $send = $func_read($this->data);
                        if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
-                       $send = json_encode($send,256+64);
+					       $send = json_encode($send,256+64);
                        }
                        if($send!=null){
                            $serv->push($this->fd,$send);
