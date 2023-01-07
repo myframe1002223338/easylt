@@ -125,18 +125,26 @@ define('HTTP_GET_TIMEOUT',10);
  */
 //配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
 define('WEBSOCKET_SERV_ON_OFF',1);
+//配置服务器是否支持SSL,1为开启,0为关闭
+define('WEBSOCKET_SSL_ON_OFF',0);
+//配置服务器SSL证书目录
+define('CERTIFICATE','');
+//配置服务器SSL密钥目录
+define('PRIVATEKEY','');
 //配置服务器监听IP,默认0.0.0.0,同时监听多个IP;
 define('WEBSOCKET_SERV_IP','0.0.0.0');
 //配置服务器端口号,当创建服务器不配置端口号时,默认9504;
 define('WEBSOCKET_SERV_PORT',9504);
 //配置服务器后台作为守护进程运行,1为守护运行,0为非守护运行;
-define('WEBSOCKET_SERV_DAEMONIZE',1);
+define('WEBSOCKET_SERV_DAEMONIZE',0);
 //配置服务器worker进程数,建议进程数为cpu核数1-4倍;
 define('WEBSOCKET_SERV_WORKER_NUM',10);
-//配置服务器worker进程的最大任务数,一个进程处理完此数值任务将自动释放所有内存和资源，防止PHP进程内存溢出;
+//配置服务器worker进程的最大任务数,防止PHP进程内存溢出;
 define('WEBSOCKET_SERV_MAX_REQUEST',3000);
-//配置服务器循环定时返回数据间隔时间,以毫秒为单位;
-define('WEBSOCKET_RESPONSE_TIME',3000);
+//配置连接成功容器（当客户端连接成功时触发）是否开启循环定时执行,1为开启,0为关闭;
+define('WEBSOCKET_RESPONSE_TIME_MODEL',0);
+//配置连接成功容器循环定时执行时间,以毫秒为单位;
+define('WEBSOCKET_RESPONSE_TIME',1000);
 //配置服务器连接心跳检测,以秒为单位;
 define('WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL',30);
 //配置服务器心跳检测最大闲置时间,即客户端周期时间内没有给服务器再次发送消息将关闭连接,默认为心跳检测时间的2倍加2-5秒的网络延迟弥补;
@@ -147,8 +155,8 @@ define('WEBSOCKET_CHAT_MODEL',1);
 define('WEBSOCKET_SERV_TASK',0);
 //配置服务器task异步进程数,建议进程数不超过cpu核数的500倍;
 define('WEBSOCKET_SERV_TASK_NUM',100);
- 
- /**
+
+/**
  * 配置RPC服务器
  */
 //配置服务器开关,1为开启,0为关闭,关闭后服务器无法启动;
@@ -195,5 +203,3 @@ define('PROCESS_POOL',30);
  */
 //配置协程在不创建协程容器时是否开启IO异步非阻塞模式,1为开启,0为不开启;
 define('ASYNC_CO',1);
-
-

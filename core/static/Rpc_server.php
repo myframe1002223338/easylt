@@ -50,14 +50,16 @@ class Rpc_server{
         });
     }
     public function task($func){
-        $this->serv->on('task',function($serv,$task_id,$from_id,$data)use($func){
-            $func($data);
-            $this->serv->finish(true);
+        $this->serv->on('task',function($serv,$task_id,$reactor_id,$data)use($func){
+            $func($data,$task_id,$reactor_id);
+            $this->serv->finish(['reactor_id'=>$reactor_id,'state'=>true]);
         });
     }
     public function finish($func){
         $this->serv->on('finish',function($serv,$task_id,$data)use($func){
-            $func($data);
+            $state = $data['state'];
+            $reactor_id = $data['reactor_id'];
+            $func($state,$task_id,$reactor_id);
         });
     }
     public function close($func){

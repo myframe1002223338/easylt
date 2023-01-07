@@ -16,56 +16,88 @@ class Websocket_server{
         if(!extension_loaded('swoole')){
             exit('请安装swoole扩展');
         }
-        if($ip==null && $port!=null){
-            $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,$port);
-        }elseif($ip!=null && $port!=null){
-            $this->serv = new swoole_websocket_server($ip,$port);
+        if(WEBSOCKET_SSL_ON_OFF===1){
+            if($ip==null && $port!=null){
+                $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,$port,SWOOLE_PROCESS,SWOOLE_SOCK_TCP | SWOOLE_SSL);
+            }elseif($ip!=null && $port!=null){
+                $this->serv = new swoole_websocket_server($ip,$port,SWOOLE_PROCESS,SWOOLE_SOCK_TCP | SWOOLE_SSL);
+            }else{
+                $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,WEBSOCKET_SERV_PORT,SWOOLE_PROCESS,SWOOLE_SOCK_TCP | SWOOLE_SSL);
+            }
+            if(WEBSOCKET_SERV_TASK===1){
+                $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'task_worker_num'=>WEBSOCKET_SERV_TASK_NUM,'heartbeat_check_interval'=>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME,'ssl_cert_file'=>CERTIFICATE,'ssl_key_file'=>PRIVATEKEY]);
+            }else{
+                $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'heartbeat_check_interval' =>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME,'ssl_cert_file'=>CERTIFICATE,'ssl_key_file'=>PRIVATEKEY]);
+            }
         }else{
-            $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,WEBSOCKET_SERV_PORT);
-        }
-        if(WEBSOCKET_SERV_TASK===1){
-             $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM
-             ,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'task_worker_num'=>WEBSOCKET_SERV_TASK_NUM,'heartbeat_check_interval'=>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME]);
-        }else{
-             $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM
-             ,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'heartbeat_check_interval'
-             =>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME]);
+            if($ip==null && $port!=null){
+                $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,$port);
+            }elseif($ip!=null && $port!=null){
+                $this->serv = new swoole_websocket_server($ip,$port);
+            }else{
+                $this->serv = new swoole_websocket_server(WEBSOCKET_SERV_IP,WEBSOCKET_SERV_PORT);
+            }
+            if(WEBSOCKET_SERV_TASK===1){
+                $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'task_worker_num'=>WEBSOCKET_SERV_TASK_NUM,'heartbeat_check_interval'=>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME]);
+            }else{
+                $this->serv->set(['daemonize'=>WEBSOCKET_SERV_DAEMONIZE,'worker_num'=>WEBSOCKET_SERV_WORKER_NUM,'max_request'=>WEBSOCKET_SERV_MAX_REQUEST,'heartbeat_check_interval' =>WEBSOCKET_HEARTHBEAT_CHECK_INTERVAL,'heartbeat_idle_time'=>WEBSOCKET_HEARTHBEAT_IDLE_TIME]);
+            }
         }
     }
     public function connect($func){
         $this->serv->on('open',function($serv,$request)use($func){
-			$func();
-        });
-    }
-    public function receive($func_read,$func_write='empty_null'){
-        $this->serv->on('message',function($serv,$request)use($func_read,$func_write){
             $this->data = $request->data;
             $this->fd = $request->fd;
-            if($func_write!='empty_null'){
-				$func_write($this->data);
-            }
-            if(WEBSOCKET_CHAT_MODEL===1){
-                swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func_read){
-                       $send = $func_read($this->data);
-                       if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
-					       $send = json_encode($send,256+64);
-                       }
-                       if($send!=null){
-                           $serv->push($this->fd,$send);
-                       }
-                },$serv);
+            if(WEBSOCKET_RESPONSE_TIME_MODEL===1){
+                swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id)use($func,$serv){
+                    $send = $func($this->data,$this->fd);
+                    if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                        $send = json_encode($send,256+64);
+                    }
+                    if($send!=null){
+                        @$serv->push($this->fd,$send);
+                    }
+                });
             }else{
-                swoole_timer_tick(WEBSOCKET_RESPONSE_TIME,function($timer_id,$serv)use($func_read){
-                      $send = $func_read($this->data);
-                      if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
-                      $send = json_encode($send,256+64);
-                      }
-                      if($send!=null){
-                          foreach($serv->connections as $fd){
-                              $serv->push($fd,$send);
-                          }
-                      }
-                },$serv);
+                $send = $func($this->data,$this->fd);
+                if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                    $send = json_encode($send,256+64);
+                }
+                if($send!=null){
+                    @$serv->push($this->fd,$send);
+                }
+            }
+        });
+    }
+    public function receive($func){
+        $this->serv->on('message',function($serv,$request)use($func){
+            $this->data = $request->data;
+            $data_parse = json_decode($this->data,true);
+            $user_fd = $data_parse['fd'];
+            $this->fd = $request->fd;
+            if(WEBSOCKET_CHAT_MODEL===1){
+                $send = $func($this->data,$this->fd);
+                if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                    $send = json_encode($send,256+64);
+                }
+                if($send!=null){
+                    //如果客户端传入对方的fd时则发送数据给对方,否则发送给自己;
+                    if($user_fd){
+                        @$serv->push($user_fd,$send);
+                    }else{
+                        @$serv->push($this->fd,$send);
+                    }
+                }
+            }else{
+                $send = $func($this->data,$this->fd);
+                if(is_array($send)){//如果发送的数据为数组则自动转换为json格式,否则会发送失败;
+                    $send = json_encode($send,256+64);
+                }
+                if($send!=null){
+                    foreach($serv->connections as $fd){
+                        @$serv->push($fd,$send);
+                    }
+                }
             }
             if(WEBSOCKET_SERV_TASK===1){
                 $serv->task($this->data);
@@ -73,19 +105,21 @@ class Websocket_server{
         });
     }
     public function task($func){
-        $this->serv->on('task',function($serv,$task_id,$from_id,$data)use($func){
-            $func($data);
-            $this->serv->finish(true);
+        $this->serv->on('task',function($serv,$task_id,$reactor_id,$data)use($func){
+            $func($data,$task_id,$reactor_id);
+            $this->serv->finish(['reactor_id'=>$reactor_id,'state'=>true]);
         });
     }
     public function finish($func){
         $this->serv->on('finish',function($serv,$task_id,$data)use($func){
-            $func($data);
+            $state = $data['state'];
+            $reactor_id = $data['reactor_id'];
+            $func($state,$task_id,$reactor_id);
         });
     }
     public function close($func){
-        $this->serv->on('close',function($serv,$request)use($func){
-            $func();
+        $this->serv->on('close',function($serv,$fd)use($func){
+            $func($fd);
         });
     }
     public function start(){

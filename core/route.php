@@ -29,6 +29,7 @@ function route_rewrite(){
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/Index.php?/$1/$2/$3
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/Index.php?/$1/$2
          RewriteRule ^'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/(.+)/(.+)$ application/'.$presenter.'/'.$controller.'/Index.php?/$1
+		 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
 </ifmodule>';
 
     $nginx_htaccess =
