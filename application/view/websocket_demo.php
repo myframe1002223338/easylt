@@ -46,7 +46,7 @@
             console.log("后台接收到前台传送的值，还有心跳...");
             //心跳检测重置
             heartCheck.start();
-            document.getElementById('div').innerHTML += event.data;
+            document.getElementById('div').innerHTML += event.data+'<br>';
         };
         //连接关闭的回调方法
         websocket.onclose = function(){
@@ -60,7 +60,7 @@
         };
     }
     function send(){
-        //客户端连接成功时服务器端将userid与socket-fd进行关联缓存到Redis,每次发送数据通过服务器端查询对方的fd并组装对象字符串JSON.stringify({fd:fd})发送给服务器,如果不发送fd则默认fc为自己;
+        //PS：开发一对一发送消息业务时，客户端连接成功时服务器端将userid与socket-fd进行关联缓存到Redis，每次发送数据通过服务器端查询对方的fd并组装对象字符串JSON.stringify({fd:fd})发送给服务器，如果不发送fd则默认fd为自己；
         var data = JSON.stringify({fd:1});
         websocket.send(data);//发送信息
         return false;
