@@ -1,5 +1,5 @@
 <?php
-//异步redis,内存常驻运行模式下不可采用单例模式;
+//异步redis
 use Swoole\Coroutine;
 use function Swoole\Coroutine\run;
 class Async_redis{

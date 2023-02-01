@@ -4,30 +4,32 @@ include('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARAT
 error_reporting(ERROR_STATE);
 header('Content-type:text/html;charset=utf-8');
 date_default_timezone_set(TIMEZONE);
-include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_controller.php');
-@include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_swoole.php');
-include('..'.D.'..'.D.'..'.D.'core'.D.'config'.D.'config_rabbitmq.php');
+include(CORE_PATH.'config'.D.'config_controller.php');
+@include(CORE_PATH.'config'.D.'config_swoole.php');
+include(CORE_PATH.'config'.D.'config_rabbitmq.php');
+include(APP_PATH.'config.php');
+include(CORE_PATH.'lib'.D.'helper.php');
 
 //动态加载类库
 function autoload(){
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Inter.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Connect_mysql.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Connect_redis.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Curl.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Curl_get.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Orm.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Tcp_client.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Udp_client.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Http_client.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Rpc_client.php');
-    include('..'.D.'..'.D.'..'.D.'extend'.D.'rabbitmq'.D.'vendor'.D.'autoload.php');
-    include('..'.D.'..'.D.'..'.D.'extend'.D.'phpexcel'.D.'PHPExcel.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_producter.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Simple_consumer.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Fanout_producter.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Routing_producter.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Topic_producter.php');
-    include('..'.D.'..'.D.'..'.D.'core'.D.'static'.D.'Dead_producter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Inter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Connect_mysql.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Connect_redis.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Curl.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Curl_get.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Orm.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Tcp_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Udp_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Http_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Rpc_client.php');
+    include(ROOT_PATH.'extend'.D.'rabbitmq'.D.'vendor'.D.'autoload.php');
+    include(ROOT_PATH.'extend'.D.'phpexcel'.D.'PHPExcel.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Simple_producter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Simple_consumer.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Fanout_producter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Routing_producter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Topic_producter.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Dead_producter.php');
 }
 spl_autoload_register('autoload');
 
@@ -101,7 +103,7 @@ if(AUTH_ON_OFF==1){
 }
 
 //调用route方法获取route请求参数用于路由分发
-include('..'.D.'..'.D.'..'.D.'core'.D.'route.php');
+include(CORE_PATH.'route.php');
 core\route_query();
 
 //解析get请求
@@ -144,13 +146,17 @@ if(file_exists('..'.D.APPLICATION_RENAME[4].'_logic'.D.$query_model.'.logic.php'
     include('..'.D.APPLICATION_RENAME[4].'_logic'.D.$query_model.'.logic.php');
 }
 
-//加载API数据返回运行类库
-include('..'.D.'..'.D.'..'.D.'core'.D.'base_api.php');
+//加载API数据返回运行类库并调用
+include(CORE_PATH.'base_api.php');
 class Response{
     public static function data($response){
         global $ob_inter;
         BaseApi::api_run($ob_inter,$response);
     }
+}
+function response(){
+    global $response;
+    Response::data($response);
 }
 
 //根据路由运行控制器
@@ -162,13 +168,3 @@ if(file_exists($query_controller.'.php') && $query_controller!='index'){
     exit('API路由配置有误!');
 }
 
-//异常日志记录
-function onerror($message,$path=null){
-    if($path===null){
-        $error = date('y-m-d h:i:s',time()).$message.PHP_EOL;
-        error_log($error,3,'..'.D.'..'.D.'..'.D.'core'.D.'log'.D.'errors.log');
-    }else{
-        $error = date('y-m-d h:i:s',time()).$message.PHP_EOL;
-        error_log($error,3,$path);
-    }
-}

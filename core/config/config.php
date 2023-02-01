@@ -29,18 +29,19 @@ define('REDIS_DBNAME',0);
  */
 //加载路由配置文件
 include('config_route.php');
+
 //服务器公网IP或域名配置,请以http://或https://开头;
 define('ADDRESS','http://127.0.0.1');
+
 //Index通用控制器下的API接口地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下API_URL_OTHER;
 define('API_URL',ADDRESS.'/'.API_URL_ROUTE[0].'/'.API_URL_ROUTE[1].'/'.API_URL_ROUTE[2].'/Index/');
 APPLICATION_RENAME[2] == 'presenter' ? define('PRESENTER',APPLICATION_RENAME[2]) : define('PRESENTER',APPLICATION_RENAME[2].'_presenter');
 APPLICATION_RENAME[3] == 'controller' ? define('CONTROLLER',APPLICATION_RENAME[3]) : define('CONTROLLER',APPLICATION_RENAME[3].'_controller');
 define('API_URL_OTHER',ADDRESS.'/application/'.PRESENTER.'/'.CONTROLLER.'/Index.php/');
+
 //入口加载文件地址,Apache/Nginx服务器请支持.htaccess/nginx.htaccess,否则请用以下VIEW_PUBLIC_OTHER;
 define('VIEW_PUBLIC',ADDRESS.'/?href=');
 define('VIEW_PUBLIC_OTHER',ADDRESS.'/public/?href=');
-//view视图静态资源路径
-define('STATIC','/public/assets/');
 
 /**
  * cURL数据传输配置
@@ -81,4 +82,18 @@ define('D',DIRECTORY_SEPARATOR);
 //error_reporting错误报告开关,0为不报错,-1为显示所有错误,2为显示除了E_NOTICE的所有错误;
 define('ERROR_STATE',0);
 //时区配置
-define('TIMEZONE','Asia/chongqing');
+define('TIMEZONE','PRC');
+
+/**
+ * 路径配置
+ */
+define('ROOT_PATH',dirname(dirname(__DIR__)).D);//框架根目录路径
+define('APP_PATH',ROOT_PATH.'application'.D);//application目录路径
+define('EXTEND_PATH',ROOT_PATH.'extend'.D);//extend目录路径
+define('CORE_PATH',ROOT_PATH.'core'.D);//core目录路径
+define('ASSETS_PATH',ROOT_PATH.'public'.D.'assets'.D);//view视图静态资源路径
+define('LIB_PATH',ROOT_PATH.'core'.D.'lib'.D);// lib类库目录路径
+define('ERRORS_PATH',ROOT_PATH.'core'.D.'log'.D);//log日志目录路径
+
+
+

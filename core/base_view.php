@@ -1,22 +1,19 @@
 <?php
 use core\static_formwork\Curl\Curl as Curl;
 use core\static_formwork\Curl_get\Curl_get as Curl_get;
-//view视图加载
-error_reporting(ERROR_STATE);
-header('Content-type:text/html;charset=utf-8');
-date_default_timezone_set(TIMEZONE);
 //加载swoole配置文件
-@include($dir.D.'core'.D.'config'.D.'config_swoole.php');
+@include(CORE_PATH.'config'.D.'config_swoole.php');
+include(APP_PATH.'config.php');
+include(CORE_PATH.'lib'.D.'helper.php');
 
 //动态加载类库
 function autoload(){
-    global $dir;
-    include($dir.D.'core'.D.'static'.D.'Curl.php');
-    include($dir.D.'core'.D.'static'.D.'Curl_get.php');
-    include($dir.D.'core'.D.'static'.D.'Tcp_client.php');
-    include($dir.D.'core'.D.'static'.D.'Udp_client.php');
-    include($dir.D.'core'.D.'static'.D.'Http_client.php');
-    include($dir.D.'core'.D.'static'.D.'Rpc_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Curl.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Curl_get.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Tcp_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Udp_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Http_client.php');
+    include(ROOT_PATH.'core'.D.'static'.D.'Rpc_client.php');
 }
 spl_autoload_register('autoload');
 
@@ -34,17 +31,6 @@ if(ROUTE_RUN==1){
     core\model_dir_rewrite($dir);
     core\presenter_dir_rewrite($dir);
     exit('路由配置成功,请在config.route.php配置文件中关闭该配置!<br /><br />以下为当前路由URL地址,路由URI请阅读开发手册路由部分:<br /><br />服务器支持htaccess : '.API_URL.'model/param/key=value<br /><br />服务器不支持htaccess : '.API_URL_OTHER.'model/param/?key=value');
-}
-
-//异常日志记录
-function onerror($message,$path=null){
-    if($path===null){
-        $error = date('y-m-d h:i:s',time()).$message.PHP_EOL;
-        error_log($error,3,'..'.D.'core'.D.'log'.D.'errors.log');
-    }else{
-        $error = date('y-m-d h:i:s',time()).$message.PHP_EOL;
-        error_log($error,3,$path);
-    }
 }
 
 //打开view视图目录文件
