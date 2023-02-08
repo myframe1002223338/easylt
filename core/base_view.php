@@ -1,25 +1,32 @@
 <?php
-use core\static_formwork\Curl\Curl as Curl;
-use core\static_formwork\Curl_get\Curl_get as Curl_get;
-//加载swoole配置文件
+//加载配置文件
 @include(CORE_PATH.'config'.D.'config_swoole.php');
 include(APP_PATH.'config.php');
-include(CORE_PATH.'lib'.D.'helper.php');
+include(CORE_PATH.'common'.D.'helper.php');
+include(EXTEND_PATH.'whoops'.D.'vendor'.D.'autoload.php');
+//实例化whoops
+if(DEBUG===1){
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
+}
 
 //动态加载类库
-function autoload(){
-    include(ROOT_PATH.'core'.D.'static'.D.'Curl.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Curl_get.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Tcp_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Udp_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Http_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Rpc_client.php');
+function autoload_view(){
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Curl.php');
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Curl_get.php');
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Tcp_client.php');
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Udp_client.php');
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Http_client.php');
+    include_once(ROOT_PATH.'core'.D.'library'.D.'Rpc_client.php');
 }
-spl_autoload_register('autoload');
+spl_autoload_register('autoload_view');
 
+use core\library\Curl\Curl as Curl;
 //实例化curl-post数据传输类库
 $curl_post = new Curl;
 
+use core\library\Curl_get\Curl_get as Curl_get;
 //实例化curl-get数据传输类库
 $curl_get = new Curl_get;
 

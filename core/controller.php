@@ -8,53 +8,63 @@ include(CORE_PATH.'config'.D.'config_controller.php');
 @include(CORE_PATH.'config'.D.'config_swoole.php');
 include(CORE_PATH.'config'.D.'config_rabbitmq.php');
 include(APP_PATH.'config.php');
-include(CORE_PATH.'lib'.D.'helper.php');
+include(CORE_PATH.'common'.D.'helper.php');
+include(EXTEND_PATH.'whoops'.D.'vendor'.D.'autoload.php');
+//实例化whoops
+if(DEBUG===1){
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
+}
 
 //动态加载类库
-function autoload(){
-    include(ROOT_PATH.'core'.D.'static'.D.'Inter.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Connect_mysql.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Connect_redis.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Curl.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Curl_get.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Orm.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Tcp_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Udp_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Http_client.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Rpc_client.php');
-    include(ROOT_PATH.'extend'.D.'rabbitmq'.D.'vendor'.D.'autoload.php');
-    include(ROOT_PATH.'extend'.D.'phpexcel'.D.'PHPExcel.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Simple_producter.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Simple_consumer.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Fanout_producter.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Routing_producter.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Topic_producter.php');
-    include(ROOT_PATH.'core'.D.'static'.D.'Dead_producter.php');
+function autoload_controller(){
+    include_once(CORE_PATH.'library'.D.'Inter.php');
+    include_once(CORE_PATH.'library'.D.'Connect_mysql.php');
+    include_once(CORE_PATH.'library'.D.'Connect_redis.php');
+    include_once(CORE_PATH.'library'.D.'Curl.php');
+    include_once(CORE_PATH.'library'.D.'Curl_get.php');
+    include_once(CORE_PATH.'library'.D.'Orm.php');
+    include_once(CORE_PATH.'library'.D.'Tcp_client.php');
+    include_once(CORE_PATH.'library'.D.'Udp_client.php');
+    include_once(CORE_PATH.'library'.D.'Http_client.php');
+    include_once(CORE_PATH.'library'.D.'Rpc_client.php');
+    include_once(EXTEND_PATH.'rabbitmq'.D.'vendor'.D.'autoload.php');
+    include_once(EXTEND_PATH.'phpexcel'.D.'PHPExcel.php');
+    include_once(CORE_PATH.'library'.D.'Simple_producter.php');
+    include_once(CORE_PATH.'library'.D.'Simple_consumer.php');
+    include_once(CORE_PATH.'library'.D.'Fanout_producter.php');
+    include_once(CORE_PATH.'library'.D.'Routing_producter.php');
+    include_once(CORE_PATH.'library'.D.'Topic_producter.php');
+    include_once(CORE_PATH.'library'.D.'Dead_producter.php');
 }
-spl_autoload_register('autoload');
+spl_autoload_register('autoload_controller');
 
-use core\static_formwork\Inter\Inter as Inter;
+use core\library\Inter\Inter as Inter;
 //实例化API数据返回输出类库
 $ob_inter = new Inter;
 
-use core\static_formwork\Connect_mysql\Connect_mysql as Connect_mysql;
+use core\library\Connect_mysql\Connect_mysql as Connect_mysql;
 //加载mysql连接类库
 $mysql_conn = Connect_mysql::get();
 
+use core\library\Orm\Orm as Orm;
 //实例化mysql-ORM类库
 $mysql_orm = new Orm;
 
-use core\static_formwork\Connect_redis\Connect_redis as Connect_redis;
+use core\library\Connect_redis\Connect_redis as Connect_redis;
 //是否使用redis,默认不使用,请在config.php中配置是否使用;
 if(REDIS_INCLUDE==1){
     $redis = Connect_redis::get();
+}else{
+    $redis = null;
 }
 
-use core\static_formwork\Curl\Curl as Curl;
+use core\library\Curl\Curl as Curl;
 //实例化curl-post数据传输类库
 $curl_post = new Curl;
 
-use core\static_formwork\Curl_get\Curl_get as Curl_get;
+use core\library\Curl_get\Curl_get as Curl_get;
 //实例化curl-get数据传输类库
 $curl_get = new Curl_get;
 
@@ -132,12 +142,31 @@ $ob_controller = new Controller;
 $request = $ob_controller->catch_params();
 $request = json_decode($request,true);
 
+/**
+ * 构造公共变量数组,用于控制器中获取外部公共变量
+ */
+$public_var = [
+    'mysql_conn'=>$mysql_conn,
+    'mysql_orm'=>$mysql_orm,
+    'redis'=>$redis,
+    'curl_post'=>$curl_post,
+    'curl_get'=>$curl_get,
+    'headers_message'=>$headers_message,
+    'request'=>$request,
+    'query_param'=>$query_param,
+    'query_get'=>$query_get,
+    'excel'=>$excel
+];
+
 //预加载model模型、logic逻辑文件,提取$response数据;
 if(file_exists('..'.D.'..'.D.'model'.D.$query_model.'.php')){
     include('..'.D.'..'.D.'model'.D.$query_model.'.php');
-}
-if(file_exists('..'.D.'..'.D.APPLICATION_RENAME[0].'_model'.D.$query_model.'.php')){
-    include('..'.D.'..'.D.APPLICATION_RENAME[0].'_model'.D.$query_model.'.php');
+}else{
+    if(file_exists('..'.D.'..'.D.APPLICATION_RENAME[0].'_model'.D.$query_model.'.php')){
+        include('..'.D.'..'.D.APPLICATION_RENAME[0].'_model'.D.$query_model.'.php');
+    }else{
+        exit("$query_model 模型不存在!");
+    }
 }
 if(file_exists('..'.D.'logic'.D.$query_model.'.logic.php')){
     include('..'.D.'logic'.D.$query_model.'.logic.php');
@@ -147,24 +176,40 @@ if(file_exists('..'.D.APPLICATION_RENAME[4].'_logic'.D.$query_model.'.logic.php'
 }
 
 //加载API数据返回运行类库并调用
-include(CORE_PATH.'base_api.php');
 class Response{
     public static function data($response){
+        include(CORE_PATH.'base_api.php');
         global $ob_inter;
         BaseApi::api_run($ob_inter,$response);
     }
 }
-function response(){
-    global $response;
-    Response::data($response);
+function response($code=null,$msg=null,$data=null){
+    if($code===null && $msg===null && $data===null){
+        global $response;
+        @Response::data($response);
+    }else{
+        $response = [$code,$msg,$data];
+        @Response::data($response);
+    }
 }
 
 //根据路由运行控制器
 if(file_exists($query_controller.'.php') && $query_controller!='index'){
     include($query_controller.'.php');
+    if(class_exists($query_controller,false)){
+        $controller_ob = new $query_controller;
+    }else {
+        exit("未在控制器中找到 $query_controller 类!");
+    }
+    if(method_exists($controller_ob,$query_model)){
+        $controller_ob->$query_model($public_var);
+    }else{
+        exit("未在控制器中找到 $query_model 类方法!");
+    }
 }elseif($query_controller=='index'){
-    new Index;
+    new Index();
 }else{
     exit('API路由配置有误!');
 }
+
 

@@ -81,6 +81,8 @@ define('GET_TIMEOUT',10);
 define('D',DIRECTORY_SEPARATOR);
 //error_reporting错误报告开关,0为不报错,-1为显示所有错误,2为显示除了E_NOTICE的所有错误;
 define('ERROR_STATE',0);
+//配置debug调试开关,0为关闭,1为开启;
+define('DEBUG',0);
 //时区配置
 define('TIMEZONE','PRC');
 
