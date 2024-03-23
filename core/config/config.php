@@ -27,9 +27,6 @@ define('REDIS_DBNAME',0);
 /**
  * 访问地址配置
  */
-//加载路由配置文件
-include('config_route.php');
-
 //服务器公网IP或域名配置,请以http://或https://开头;
 define('ADDRESS','http://127.0.0.1');
 

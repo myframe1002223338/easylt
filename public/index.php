@@ -9,6 +9,7 @@
 
 // [ 应用入口文件 ]
 $dir = dirname(__DIR__);
+include($dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config_route.php');
 include($dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php');
 error_reporting(ERROR_STATE);
 header('Content-type:text/html;charset=utf-8');
